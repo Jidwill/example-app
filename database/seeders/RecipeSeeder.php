@@ -13,8 +13,6 @@ class RecipeSeeder extends Seeder
      */
     public function run(): void
     {
-       Recipe::create(['title' => 'Chicken rice bowl', 'protein' => 45]);
-        Recipe::create(['title' => 'Protein oats', 'protein' => 35]);
-        Recipe::create(['title' => 'Tuna pasta', 'protein' => 40]);
+        Recipe::factory()->count(10)->create();
     }
 }
