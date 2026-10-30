@@ -2,7 +2,6 @@
 
 namespace Database\Seeders;
 
-use App\Models\User;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 
@@ -12,17 +11,19 @@ class DatabaseSeeder extends Seeder
 
     /**
      * Seed the application's database.
+     *
+     * The order matters: each seeder needs the rows the previous ones created.
+     * Users and tags first, then recipes (need users), then comments (need
+     * users and recipes), then likes (need users, recipes and comments).
      */
     public function run(): void
     {
-        // User::factory(10)->create();
-        $this->call(RecipeSeeder::class);
-
-        User::factory()->create([
-            'name' => 'Test User',
-            'email' => 'test@example.com',
+        $this->call([
+            UserSeeder::class,
+            TagSeeder::class,
+            RecipeSeeder::class,
+            CommentSeeder::class,
+            LikeSeeder::class,
         ]);
-
-
     }
 }

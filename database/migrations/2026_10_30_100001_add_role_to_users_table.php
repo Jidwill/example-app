@@ -11,11 +11,9 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('recipes', function (Blueprint $table) {
-            $table->id();
-            $table->string('title');
-            $table->unsignedSmallInteger('protein');
-            $table->timestamps();
+        Schema::table('users', function (Blueprint $table) {
+            // member, coach or admin. New accounts are members by default.
+            $table->string('role')->default('member')->after('email');
         });
     }
 
@@ -24,6 +22,8 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('recipes');
+        Schema::table('users', function (Blueprint $table) {
+            $table->dropColumn('role');
+        });
     }
 };
