@@ -15,7 +15,7 @@ class Profile extends Model
     use HasFactory;
 
     /**
-     * One to one (inverse): the user this profile belongs to.
+     * The user who owns this profile.
      */
     public function user(): BelongsTo
     {

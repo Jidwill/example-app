@@ -14,12 +14,12 @@ return new class extends Migration
         Schema::create('likes', function (Blueprint $table) {
             $table->id();
             $table->foreignId('user_id')->constrained()->cascadeOnDelete();
-            // Polymorphic: adds likeable_id and likeable_type, so a like can
-            // belong to a Recipe or a Comment without a separate table for each.
+            // polymorphic - this adds likeable_id and likeable_type so one likes
+            // table works for both recipes and comments
             $table->morphs('likeable');
             $table->timestamps();
 
-            // A user can only like the same recipe or comment once.
+            // can't like the same recipe or comment twice
             $table->unique(['user_id', 'likeable_id', 'likeable_type']);
         });
     }

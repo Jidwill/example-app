@@ -12,9 +12,9 @@ use Illuminate\Database\Eloquent\Factories\Factory;
 class RecipeFactory extends Factory
 {
     /**
-     * Realistic meals with typical macros per serving (protein, carbs, fat in grams).
-     * The factory picks one and varies the numbers slightly, so seeded
-     * recipes look believable instead of completely random.
+     * Real meals with rough macros per serving (protein, carbs, fat in grams).
+     * The factory picks one at random and changes the macros a bit so
+     * the seeded recipes look realistic.
      */
     protected static array $meals = [
         ['Chicken rice bowl', 'Grilled chicken thighs over rice with peppers and a soy glaze.', ['200g chicken thigh', '150g cooked rice', '1 red pepper', '1 tbsp soy sauce', '1 tsp honey'], 45, 60, 12],
@@ -67,8 +67,8 @@ class RecipeFactory extends Factory
     }
 
     /**
-     * Change a value by up to 15% either way, so the same meal can be
-     * seeded more than once with slightly different macros.
+     * Nudges a number up or down by up to 15% so the same meal
+     * doesn't always have identical macros.
      */
     private function vary(int $grams): int
     {

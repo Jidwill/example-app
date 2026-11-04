@@ -20,7 +20,7 @@ class ProfileFactory extends Factory
     {
         $goal = fake()->randomElement(['bulk', 'cut', 'maintain']);
 
-        // Realistic calorie targets depend on the goal.
+        // calorie target depends on the goal so the numbers make sense
         $calories = match ($goal) {
             'bulk' => fake()->numberBetween(28, 38) * 100,
             'cut' => fake()->numberBetween(16, 24) * 100,

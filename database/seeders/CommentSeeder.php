@@ -14,7 +14,7 @@ class CommentSeeder extends Seeder
      */
     public function run(): void
     {
-        // Each comment is written by a random existing user on a random existing recipe.
+        // a random existing user commenting on a random existing recipe
         Comment::factory()
             ->count(120)
             ->recycle(User::all())

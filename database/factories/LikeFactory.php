@@ -14,8 +14,8 @@ class LikeFactory extends Factory
 {
     /**
      * Define the model's default state.
-     * By default a like is on a recipe; seeders use for($model, 'likeable')
-     * to like a comment instead.
+     * Likes a recipe by default - in the seeder I use for($comment, 'likeable')
+     * to like comments as well.
      *
      * @return array<string, mixed>
      */

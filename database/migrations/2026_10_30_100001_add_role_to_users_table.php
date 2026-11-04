@@ -12,7 +12,7 @@ return new class extends Migration
     public function up(): void
     {
         Schema::table('users', function (Blueprint $table) {
-            // member, coach or admin. New accounts are members by default.
+            // roles are member, coach or admin (everyone starts as a member)
             $table->string('role')->default('member')->after('email');
         });
     }

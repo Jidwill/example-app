@@ -12,8 +12,8 @@ use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 
-// 'role' is deliberately not fillable, so a user cannot make themselves an
-// admin by adding a role field to the registration form (mass assignment).
+// role is left out of fillable on purpose so nobody can sneak role=admin
+// into the register form (mass assignment)
 #[Fillable(['name', 'email', 'password'])]
 #[Hidden(['password', 'remember_token'])]
 class User extends Authenticatable
@@ -35,7 +35,7 @@ class User extends Authenticatable
     }
 
     /**
-     * One to one: the user's fitness profile.
+     * Each user has one profile with their goal and macro targets.
      */
     public function profile(): HasOne
     {
@@ -43,7 +43,7 @@ class User extends Authenticatable
     }
 
     /**
-     * One to many: recipes this user has posted.
+     * Recipes this user has posted.
      */
     public function recipes(): HasMany
     {
@@ -51,7 +51,7 @@ class User extends Authenticatable
     }
 
     /**
-     * One to many: comments this user has written.
+     * Comments this user has written.
      */
     public function comments(): HasMany
     {
@@ -59,7 +59,7 @@ class User extends Authenticatable
     }
 
     /**
-     * One to many: likes this user has given.
+     * Likes this user has given out.
      */
     public function likes(): HasMany
     {

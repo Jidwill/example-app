@@ -10,7 +10,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 class Tag extends Model
 {
     /**
-     * Many to many: recipes with this tag, through the recipe_tag pivot table.
+     * Recipes that have this tag.
      */
     public function recipes(): BelongsToMany
     {

@@ -30,7 +30,7 @@ class Recipe extends Model
     use HasFactory;
 
     /**
-     * One to many (inverse): the user who posted the recipe.
+     * Who posted the recipe.
      */
     public function user(): BelongsTo
     {
@@ -38,7 +38,7 @@ class Recipe extends Model
     }
 
     /**
-     * One to many: comments on this recipe.
+     * All the comments on this recipe.
      */
     public function comments(): HasMany
     {
@@ -46,7 +46,7 @@ class Recipe extends Model
     }
 
     /**
-     * Many to many: tags such as "Bulk" or "Meal prep", through the recipe_tag pivot table.
+     * Tags like Bulk or Meal prep, linked through the recipe_tag pivot table.
      */
     public function tags(): BelongsToMany
     {
@@ -54,7 +54,7 @@ class Recipe extends Model
     }
 
     /**
-     * Polymorphic one to many: likes on this recipe.
+     * Likes on this recipe (shares the likes table with comments).
      */
     public function likes(): MorphMany
     {
@@ -62,9 +62,9 @@ class Recipe extends Model
     }
 
     /**
-     * Calories per serving, calculated from the macros
-     * (4 kcal per gram of protein and carbs, 9 per gram of fat).
-     * Used as $recipe->calories, but not stored in the database.
+     * Works out calories per serving from the macros
+     * (4 per gram of protein and carbs, 9 per gram of fat).
+     * Use it like $recipe->calories - it isn't saved in the database.
      */
     protected function calories(): Attribute
     {

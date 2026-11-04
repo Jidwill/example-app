@@ -14,7 +14,7 @@ class Like extends Model
     use HasFactory;
 
     /**
-     * The user who gave the like.
+     * Who liked it.
      */
     public function user(): BelongsTo
     {
@@ -22,7 +22,7 @@ class Like extends Model
     }
 
     /**
-     * Polymorphic (inverse): the liked Recipe or Comment.
+     * The thing that was liked - either a Recipe or a Comment.
      */
     public function likeable(): MorphTo
     {

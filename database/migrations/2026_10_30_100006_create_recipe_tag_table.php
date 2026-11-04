@@ -11,15 +11,15 @@ return new class extends Migration
      */
     public function up(): void
     {
-        // Pivot table for the many to many between recipes and tags.
-        // Named with both models singular, in alphabetical order (Laravel's convention).
+        // pivot table for recipes <-> tags (many to many)
+        // called recipe_tag because Laravel expects singular names in alphabetical order
         Schema::create('recipe_tag', function (Blueprint $table) {
             $table->id();
             $table->foreignId('recipe_id')->constrained()->cascadeOnDelete();
             $table->foreignId('tag_id')->constrained()->cascadeOnDelete();
             $table->timestamps();
 
-            // The same tag cannot be attached to the same recipe twice.
+            // stops the same tag being added to a recipe twice
             $table->unique(['recipe_id', 'tag_id']);
         });
     }

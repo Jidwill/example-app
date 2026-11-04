@@ -16,7 +16,7 @@ class Comment extends Model
     use HasFactory;
 
     /**
-     * One to many (inverse): the user who wrote the comment.
+     * Who wrote the comment.
      */
     public function user(): BelongsTo
     {
@@ -24,7 +24,7 @@ class Comment extends Model
     }
 
     /**
-     * One to many (inverse): the recipe the comment is on.
+     * The recipe this comment is on.
      */
     public function recipe(): BelongsTo
     {
@@ -32,7 +32,7 @@ class Comment extends Model
     }
 
     /**
-     * Polymorphic one to many: likes on this comment.
+     * Likes on this comment (same likes table as recipes).
      */
     public function likes(): MorphMany
     {

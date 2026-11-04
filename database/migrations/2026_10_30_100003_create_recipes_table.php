@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('recipes', function (Blueprint $table) {
             $table->id();
-            // One to many: a user has many recipes, a recipe belongs to one user.
+            // the user who posted it (one user can have many recipes)
             $table->foreignId('user_id')->constrained()->cascadeOnDelete();
             $table->string('title');
             $table->text('description');
@@ -21,7 +21,7 @@ return new class extends Migration
             $table->text('method');
             $table->unsignedSmallInteger('prep_minutes');
             $table->unsignedTinyInteger('servings');
-            // Macros are grams per serving. Calories are worked out in the model.
+            // macros are grams per serving, calories get worked out in the Recipe model
             $table->unsignedSmallInteger('protein');
             $table->unsignedSmallInteger('carbs');
             $table->unsignedSmallInteger('fat');

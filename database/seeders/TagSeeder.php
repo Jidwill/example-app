@@ -12,8 +12,7 @@ class TagSeeder extends Seeder
      */
     public function run(): void
     {
-        // Tags are a fixed list the admin manages, so they are seeded by hand
-        // rather than with a factory.
+        // tags are a fixed list so I just seed them by hand instead of using a factory
         $tags = [
             'Bulk',
             'Cut',

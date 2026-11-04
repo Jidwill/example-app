@@ -45,7 +45,7 @@ class UserFactory extends Factory
     }
 
     /**
-     * A coach, who can moderate other users' recipes and comments.
+     * Makes the user a coach (can moderate other people's posts).
      */
     public function coach(): static
     {
@@ -55,7 +55,7 @@ class UserFactory extends Factory
     }
 
     /**
-     * An admin, who can also manage tags and user roles.
+     * Makes the user an admin (can also manage tags and roles).
      */
     public function admin(): static
     {
