@@ -27,7 +27,7 @@ class RecipeSeeder extends Seeder
         // give each recipe 1-3 random tags (many to many)
         foreach ($recipes as $recipe) {
             $recipe->tags()->attach(
-                $tags->random(rand(1, 3))->pluck('id')
+                $tags->random(fake()->numberBetween(1, 3))->pluck('id')
             );
         }
     }

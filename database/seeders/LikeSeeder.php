@@ -24,11 +24,11 @@ class LikeSeeder extends Seeder
             $otherComments = $comments->where('user_id', '!=', $user->id);
 
             // same Like factory for recipes and comments (polymorphic)
-            foreach ($otherRecipes->random(rand(0, 6)) as $recipe) {
+            foreach ($otherRecipes->random(fake()->numberBetween(0, 6)) as $recipe) {
                 Like::factory()->for($user)->for($recipe, 'likeable')->create();
             }
 
-            foreach ($otherComments->random(rand(0, 6)) as $comment) {
+            foreach ($otherComments->random(fake()->numberBetween(0, 6)) as $comment) {
                 Like::factory()->for($user)->for($comment, 'likeable')->create();
             }
         }
