@@ -24,7 +24,7 @@ class RecipeSeeder extends Seeder
             ->recycle($users)
             ->create();
 
-        // give each recipe 1-3 random tags (many to many)
+        // attach 1-3 random tags to each recipe through the pivot table
         foreach ($recipes as $recipe) {
             $recipe->tags()->attach(
                 $tags->random(fake()->numberBetween(1, 3))->pluck('id')

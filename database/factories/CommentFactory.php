@@ -38,7 +38,7 @@ class CommentFactory extends Factory
                 'Good recipe, but my macros came out slightly higher.',
                 'Easy enough to make after a late gym session.',
             ]),
-            // within the last month, so always after the recipe was posted
+            // posted in the last month, so always after the recipe it's on
             'created_at' => fake()->dateTimeBetween('-1 month'),
         ];
     }

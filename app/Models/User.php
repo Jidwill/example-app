@@ -66,11 +66,17 @@ class User extends Authenticatable
         return $this->hasMany(Like::class);
     }
 
+    /**
+     * Check if the user is an admin.
+     */
     public function isAdmin(): bool
     {
         return $this->role === 'admin';
     }
 
+    /**
+     * Check if the user is a coach.
+     */
     public function isCoach(): bool
     {
         return $this->role === 'coach';

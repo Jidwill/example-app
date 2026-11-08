@@ -13,8 +13,8 @@ class RecipeFactory extends Factory
 {
     /**
      * Real meals with rough macros per serving (protein, carbs, fat in grams).
-     * The factory picks one at random and changes the macros a bit so
-     * the seeded recipes look realistic.
+     * The factory picks one at random and tweaks the macros a bit so
+     * the seeded recipes don't all look identical.
      */
     protected static array $meals = [
         [
@@ -343,7 +343,7 @@ class RecipeFactory extends Factory
             'carbs' => $this->vary($carbs),
             'fat' => $this->vary($fat),
             'image_path' => null,
-            // posted some time in the last few months (comments always come after this)
+            // posted 1-3 months ago, so comments (last month) always come after it
             'created_at' => fake()->dateTimeBetween('-3 months', '-1 month'),
         ];
     }

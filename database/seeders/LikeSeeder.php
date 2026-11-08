@@ -19,11 +19,12 @@ class LikeSeeder extends Seeder
         $comments = Comment::all();
 
         foreach (User::all() as $user) {
-            // people shouldn't like their own stuff, and random() never picks the same item twice
+            // people can't like their own recipes or comments
             $otherRecipes = $recipes->where('user_id', '!=', $user->id);
             $otherComments = $comments->where('user_id', '!=', $user->id);
 
-            // same Like factory for recipes and comments (polymorphic)
+            // random() never picks the same item twice, so there are no duplicate likes,
+            // and the same Like factory works for both because likes are polymorphic
             foreach ($otherRecipes->random(fake()->numberBetween(0, 6)) as $recipe) {
                 Like::factory()->for($user)->for($recipe, 'likeable')->create();
             }

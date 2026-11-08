@@ -14,7 +14,7 @@ class UserSeeder extends Seeder
     public function run(): void
     {
         // one account for each role so I can log in and test them
-        // (every seeded user has the password "password")
+        // every seeded user's password is just "password"
         User::factory()->admin()->has(Profile::factory(), 'profile')->create([
             'name' => 'Admin User',
             'email' => 'admin@example.com',
@@ -30,7 +30,7 @@ class UserSeeder extends Seeder
             'email' => 'member@example.com',
         ]);
 
-        // then a load of random members and a couple of extra coaches, all with profiles
+        // then 20 random members and 2 extra coaches, all with profiles
         User::factory()->count(20)->has(Profile::factory(), 'profile')->create();
         User::factory()->count(2)->coach()->has(Profile::factory(), 'profile')->create();
     }

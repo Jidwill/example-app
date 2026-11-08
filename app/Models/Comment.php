@@ -32,7 +32,7 @@ class Comment extends Model
     }
 
     /**
-     * Likes on this comment (same likes table as recipes).
+     * Likes on this comment. These go in the same likes table as recipe likes.
      */
     public function likes(): MorphMany
     {

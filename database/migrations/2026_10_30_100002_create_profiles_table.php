@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('profiles', function (Blueprint $table) {
             $table->id();
-            // unique so a user can only ever have one profile (one to one)
+            // unique so each user can only have one profile, which is what makes it one to one
             $table->foreignId('user_id')->unique()->constrained()->cascadeOnDelete();
             $table->string('goal'); // bulk, cut or maintain
             $table->unsignedSmallInteger('daily_calories');
