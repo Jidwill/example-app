@@ -2,17 +2,17 @@
 
 namespace App\Http\Requests;
 
+use App\Models\Recipe;
 use Illuminate\Foundation\Http\FormRequest;
 
 class StoreRecipeRequest extends FormRequest
 {
     /**
-     * Any logged in user can post a recipe (the route already has the auth middleware).
-     * This will move into a RecipePolicy once roles are added.
+     * Checks RecipePolicy@create, so the rule for who can post lives in one place.
      */
     public function authorize(): bool
     {
-        return true;
+        return $this->user()->can('create', Recipe::class);
     }
 
     /**

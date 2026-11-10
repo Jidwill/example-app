@@ -4,9 +4,11 @@
             <h2 class="font-semibold text-xl text-gray-800 dark:text-gray-200 leading-tight">
                 Recipes
             </h2>
-            <a href="{{ route('recipes.create') }}" class="inline-flex items-center px-4 py-2 bg-gray-800 dark:bg-gray-200 rounded-md font-semibold text-xs text-white dark:text-gray-800 uppercase tracking-widest hover:bg-gray-700 dark:hover:bg-white focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 dark:focus:ring-offset-gray-800">
-                Post a recipe
-            </a>
+            @can('create', App\Models\Recipe::class)
+                <a href="{{ route('recipes.create') }}" class="inline-flex items-center px-4 py-2 bg-gray-800 dark:bg-gray-200 rounded-md font-semibold text-xs text-white dark:text-gray-800 uppercase tracking-widest hover:bg-gray-700 dark:hover:bg-white focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 dark:focus:ring-offset-gray-800">
+                    Post a recipe
+                </a>
+            @endcan
         </div>
     </x-slot>
 
@@ -18,6 +20,10 @@
                 <div class="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
                     @foreach ($recipes as $recipe)
                         <article class="flex flex-col rounded-lg bg-white p-5 shadow-sm dark:bg-gray-800">
+                            {{-- only the owner, coaches and admins ever see hidden ones in the list --}}
+                            @if ($recipe->is_hidden)
+                                <p class="mb-2 self-start rounded bg-gray-800 px-2 py-0.5 text-xs font-semibold uppercase tracking-wide text-white">Hidden</p>
+                            @endif
                             <h3 class="text-lg font-semibold text-gray-900 dark:text-gray-100">
                                 <a href="{{ route('recipes.show', $recipe) }}" class="hover:underline focus:outline-none focus:ring-2 focus:ring-indigo-500 rounded">
                                     {{ $recipe->title }}
@@ -25,7 +31,7 @@
                             </h3>
 
                             <p class="mt-1 text-sm text-gray-600 dark:text-gray-400">
-                                by {{ $recipe->user->name }} · {{ $recipe->created_at->diffForHumans() }}
+                                by {{ $recipe->user->name }}<x-role-badge :user="$recipe->user" /> · {{ $recipe->created_at->diffForHumans() }}
                             </p>
 
                             <p class="mt-3 text-sm text-gray-700 dark:text-gray-300 line-clamp-2">

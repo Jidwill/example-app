@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Database\Factories\RecipeFactory;
 use Illuminate\Database\Eloquent\Attributes\Fillable;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -28,6 +29,35 @@ class Recipe extends Model
 {
     /** @use HasFactory<RecipeFactory> */
     use HasFactory;
+
+    /**
+     * is_hidden is left out of fillable on purpose - only coaches and admins
+     * should be able to change it, through the hide button.
+     *
+     * @return array<string, string>
+     */
+    protected function casts(): array
+    {
+        return [
+            'is_hidden' => 'boolean',
+        ];
+    }
+
+    /**
+     * Only the recipes this user is allowed to see. Coaches and admins see everything,
+     * everyone else sees recipes that aren't hidden plus their own.
+     * Matches RecipePolicy@view so the list and the recipe page agree.
+     */
+    public function scopeVisibleTo(Builder $query, User $user): void
+    {
+        if ($user->isCoach() || $user->isAdmin()) {
+            return;
+        }
+
+        $query->where(function (Builder $query) use ($user) {
+            $query->where('is_hidden', false)->orWhere('user_id', $user->id);
+        });
+    }
 
     /**
      * Who posted the recipe.

@@ -4,13 +4,32 @@
             {{ $recipe->title }}
         </h2>
         <p class="mt-1 text-sm text-gray-600 dark:text-gray-400">
-            Posted by {{ $recipe->user->name }} · {{ $recipe->created_at->diffForHumans() }}
+            Posted by {{ $recipe->user->name }}<x-role-badge :user="$recipe->user" /> · {{ $recipe->created_at->diffForHumans() }}
         </p>
     </x-slot>
 
     <div class="py-8">
         <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 space-y-6">
-            <a href="{{ route('recipes.index') }}" class="text-sm text-indigo-700 hover:underline dark:text-indigo-300">&larr; Back to all recipes</a>
+            <div class="flex flex-wrap items-center justify-between gap-4">
+                <a href="{{ route('recipes.index') }}" class="text-sm text-indigo-700 hover:underline dark:text-indigo-300">&larr; Back to all recipes</a>
+
+                {{-- only shows for coaches and admins (RecipePolicy@hide) --}}
+                @can('hide', $recipe)
+                    <form method="POST" action="{{ route('recipes.hide', $recipe) }}">
+                        @csrf
+                        @method('PATCH')
+                        <x-secondary-button type="submit">
+                            {{ $recipe->is_hidden ? 'Unhide recipe' : 'Hide recipe' }}
+                        </x-secondary-button>
+                    </form>
+                @endcan
+            </div>
+
+            @if ($recipe->is_hidden)
+                <p class="rounded-md border border-gray-300 bg-gray-50 px-4 py-3 text-sm text-gray-800 dark:border-gray-600 dark:bg-gray-800 dark:text-gray-200">
+                    This recipe has been hidden by a coach. Only the person who posted it, coaches and admins can see it.
+                </p>
+            @endif
 
             <section class="rounded-lg bg-white p-6 shadow-sm dark:bg-gray-800">
                 <p class="text-gray-800 dark:text-gray-200">{{ $recipe->description }}</p>
@@ -62,7 +81,7 @@
                 @forelse ($recipe->comments as $comment)
                     <article class="mt-4 border-t border-gray-200 pt-4 dark:border-gray-700">
                         <p class="text-sm text-gray-600 dark:text-gray-400">
-                            <span class="font-medium text-gray-900 dark:text-gray-100">{{ $comment->user->name }}</span>
+                            <span class="font-medium text-gray-900 dark:text-gray-100">{{ $comment->user->name }}</span><x-role-badge :user="$comment->user" />
                             · {{ $comment->created_at->diffForHumans() }}
                             · {{ $comment->likes_count }} {{ Str::plural('like', $comment->likes_count) }}
                         </p>

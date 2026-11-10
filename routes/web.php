@@ -20,4 +20,9 @@ Route::resource('recipes', RecipeController::class)
     ->only(['index', 'create', 'store', 'show'])
     ->middleware('auth');
 
+// coaches and admins can hide a recipe (checked in RecipePolicy@hide)
+Route::patch('recipes/{recipe}/hide', [RecipeController::class, 'toggleHidden'])
+    ->middleware('auth')
+    ->name('recipes.hide');
+
 require __DIR__.'/auth.php';
