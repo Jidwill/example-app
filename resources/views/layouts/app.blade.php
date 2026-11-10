@@ -27,6 +27,28 @@
                 </header>
             @endif
 
+            <!-- Flash and error messages, kept here so every page can show them -->
+            @if (session('success') || $errors->any())
+                <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-6 space-y-4">
+                    @if (session('success'))
+                        <div role="status" class="rounded-md border border-green-300 bg-green-50 px-4 py-3 text-sm text-green-800 dark:border-green-700 dark:bg-green-900/40 dark:text-green-200">
+                            {{ session('success') }}
+                        </div>
+                    @endif
+
+                    @if ($errors->any())
+                        <div role="alert" class="rounded-md border border-red-300 bg-red-50 px-4 py-3 text-sm text-red-800 dark:border-red-700 dark:bg-red-900/40 dark:text-red-200">
+                            <p class="font-semibold">Please fix the following:</p>
+                            <ul class="mt-1 list-disc ps-5">
+                                @foreach ($errors->all() as $error)
+                                    <li>{{ $error }}</li>
+                                @endforeach
+                            </ul>
+                        </div>
+                    @endif
+                </div>
+            @endif
+
             <!-- Page Content -->
             <main>
                 {{ $slot }}
