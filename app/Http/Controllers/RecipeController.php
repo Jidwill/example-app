@@ -73,11 +73,8 @@ class RecipeController extends Controller
         // RecipePolicy@view - a hidden recipe gives a 403 unless it's yours or you're a coach/admin
         Gate::authorize('view', $recipe);
 
-        $recipe->load([
-            'user',
-            'tags',
-            'comments' => fn ($query) => $query->with('user')->withCount('likes')->latest(),
-        ])->loadCount('likes');
+        // the comments and like buttons are Livewire components that load their own data
+        $recipe->load(['user', 'tags']);
 
         return view('recipes.show', ['recipe' => $recipe]);
     }

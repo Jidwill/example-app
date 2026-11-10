@@ -19,6 +19,10 @@ class CommentFactory extends Factory
      */
     public function definition(): array
     {
+        // posted in the last month, so always after the recipe it's on.
+        // updated_at matches so seeded comments don't show as "edited"
+        $postedAt = fake()->dateTimeBetween('-1 month');
+
         return [
             'user_id' => User::factory(),
             'recipe_id' => Recipe::factory(),
@@ -38,8 +42,8 @@ class CommentFactory extends Factory
                 'Good recipe, but my macros came out slightly higher.',
                 'Easy enough to make after a late gym session.',
             ]),
-            // posted in the last month, so always after the recipe it's on
-            'created_at' => fake()->dateTimeBetween('-1 month'),
+            'created_at' => $postedAt,
+            'updated_at' => $postedAt,
         ];
     }
 }

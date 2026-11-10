@@ -63,8 +63,11 @@
                     <p class="mt-4 text-sm text-gray-600 dark:text-gray-400">
                         {{ $recipe->prep_minutes }} mins
                         · serves {{ $recipe->servings }}
-                        · {{ $recipe->likes_count }} {{ Str::plural('like', $recipe->likes_count) }}
                     </p>
+
+                    <div class="mt-3">
+                        <livewire:like-button :likeable="$recipe" :key="'like-recipe-'.$recipe->id" />
+                    </div>
 
                     @if ($recipe->tags->isNotEmpty())
                         <ul class="mt-3 flex flex-wrap gap-1.5 text-xs" aria-label="Tags">
@@ -97,25 +100,8 @@
                 </section>
             </div>
 
-            <section class="rounded-lg bg-white p-6 shadow-sm dark:bg-gray-800">
-                <h3 class="text-lg font-semibold text-gray-900 dark:text-gray-100">
-                    Comments ({{ $recipe->comments->count() }})
-                </h3>
-
-                {{-- posting comments gets added later as a Livewire component --}}
-                @forelse ($recipe->comments as $comment)
-                    <article class="mt-4 border-t border-gray-200 pt-4 dark:border-gray-700">
-                        <p class="text-sm text-gray-600 dark:text-gray-400">
-                            <span class="font-medium text-gray-900 dark:text-gray-100">{{ $comment->user->name }}</span><x-role-badge :user="$comment->user" />
-                            · {{ $comment->created_at->diffForHumans() }}
-                            · {{ $comment->likes_count }} {{ Str::plural('like', $comment->likes_count) }}
-                        </p>
-                        <p class="mt-1 text-gray-800 dark:text-gray-200">{{ $comment->body }}</p>
-                    </article>
-                @empty
-                    <p class="mt-3 text-gray-600 dark:text-gray-400">No comments yet.</p>
-                @endforelse
-            </section>
+            {{-- comments are a Livewire component so posting, editing and deleting don't reload the page --}}
+            <livewire:recipe-comments :recipe="$recipe" />
         </div>
     </div>
 </x-app-layout>

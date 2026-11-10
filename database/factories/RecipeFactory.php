@@ -329,6 +329,9 @@ class RecipeFactory extends Factory
     public function definition(): array
     {
         $meal = fake()->randomElement(static::$meals);
+
+        // posted 1-3 months ago, so comments (last month) always come after it
+        $postedAt = fake()->dateTimeBetween('-3 months', '-1 month');
         [$protein, $carbs, $fat] = $meal['macros'];
 
         return [
@@ -343,8 +346,8 @@ class RecipeFactory extends Factory
             'carbs' => $this->vary($carbs),
             'fat' => $this->vary($fat),
             'image_path' => null,
-            // posted 1-3 months ago, so comments (last month) always come after it
-            'created_at' => fake()->dateTimeBetween('-3 months', '-1 month'),
+            'created_at' => $postedAt,
+            'updated_at' => $postedAt,
         ];
     }
 
