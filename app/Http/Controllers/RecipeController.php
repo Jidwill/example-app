@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\StoreRecipeRequest;
+use App\Http\Requests\UpdateRecipeRequest;
 use App\Models\Recipe;
 use App\Models\Tag;
 use Illuminate\Http\RedirectResponse;
@@ -46,11 +47,16 @@ class RecipeController extends Controller
      */
     public function store(StoreRecipeRequest $request): RedirectResponse
     {
-        // creating it through the user's recipes() relationship fills in user_id for me,
-        // and only validated fields get saved (tags go in the pivot table instead)
-        $recipe = $request->user()->recipes()->create(
-            $request->safe()->except('tags')
-        );
+        // only validated fields, and not tags or the file itself
+        $data = $request->safe()->except(['tags', 'image']);
+
+        if ($request->hasFile('image')) {
+            // saves into storage/app/public/recipes with a random file name
+            $data['image_path'] = $request->file('image')->store('recipes', 'public');
+        }
+
+        // creating it through the user's recipes() relationship fills in user_id for me
+        $recipe = $request->user()->recipes()->create($data);
 
         $recipe->tags()->sync($request->validated('tags', []));
 
@@ -74,6 +80,59 @@ class RecipeController extends Controller
         ])->loadCount('likes');
 
         return view('recipes.show', ['recipe' => $recipe]);
+    }
+
+    /**
+     * Show the form for editing a recipe (owner or admin only).
+     */
+    public function edit(Recipe $recipe): View
+    {
+        Gate::authorize('update', $recipe);
+
+        return view('recipes.edit', [
+            'recipe' => $recipe->load('tags'),
+            'tags' => Tag::orderBy('name')->get(),
+        ]);
+    }
+
+    /**
+     * Save changes to a recipe. UpdateRecipeRequest checks permission and validates.
+     */
+    public function update(UpdateRecipeRequest $request, Recipe $recipe): RedirectResponse
+    {
+        $data = $request->safe()->except(['tags', 'image', 'remove_image']);
+
+        // the old photo gets deleted if it's being replaced or removed
+        if ($request->hasFile('image') || $request->boolean('remove_image')) {
+            $recipe->deleteImage();
+            $data['image_path'] = null;
+        }
+
+        if ($request->hasFile('image')) {
+            $data['image_path'] = $request->file('image')->store('recipes', 'public');
+        }
+
+        $recipe->update($data);
+        $recipe->tags()->sync($request->validated('tags', []));
+
+        return redirect()
+            ->route('recipes.show', $recipe)
+            ->with('success', 'Recipe updated.');
+    }
+
+    /**
+     * Delete a recipe (owner or admin only). The Recipe model cleans up
+     * its likes and photo when it's deleted.
+     */
+    public function destroy(Recipe $recipe): RedirectResponse
+    {
+        Gate::authorize('delete', $recipe);
+
+        $recipe->delete();
+
+        return redirect()
+            ->route('recipes.index')
+            ->with('success', 'Recipe deleted.');
     }
 
     /**

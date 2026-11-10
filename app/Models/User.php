@@ -35,6 +35,19 @@ class User extends Authenticatable
     }
 
     /**
+     * When someone deletes their account (Breeze profile page), delete their recipes and
+     * comments one by one so the Recipe and Comment clean up above runs (likes and photos).
+     * The database cascade alone would skip those model events.
+     */
+    protected static function booted(): void
+    {
+        static::deleting(function (User $user) {
+            $user->recipes->each->delete();
+            $user->comments->each->delete();
+        });
+    }
+
+    /**
      * Each user has one profile with their goal and macro targets.
      */
     public function profile(): HasOne

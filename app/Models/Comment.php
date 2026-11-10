@@ -16,6 +16,17 @@ class Comment extends Model
     use HasFactory;
 
     /**
+     * Likes are polymorphic so the database can't cascade them -
+     * delete them here when the comment is deleted.
+     */
+    protected static function booted(): void
+    {
+        static::deleting(function (Comment $comment) {
+            $comment->likes()->delete();
+        });
+    }
+
+    /**
      * Who wrote the comment.
      */
     public function user(): BelongsTo

@@ -13,16 +13,35 @@
             <div class="flex flex-wrap items-center justify-between gap-4">
                 <a href="{{ route('recipes.index') }}" class="text-sm text-indigo-700 hover:underline dark:text-indigo-300">&larr; Back to all recipes</a>
 
-                {{-- only shows for coaches and admins (RecipePolicy@hide) --}}
-                @can('hide', $recipe)
-                    <form method="POST" action="{{ route('recipes.hide', $recipe) }}">
-                        @csrf
-                        @method('PATCH')
-                        <x-secondary-button type="submit">
-                            {{ $recipe->is_hidden ? 'Unhide recipe' : 'Hide recipe' }}
-                        </x-secondary-button>
-                    </form>
-                @endcan
+                <div class="flex flex-wrap items-center gap-3">
+                    {{-- owner or admin (RecipePolicy@update) --}}
+                    @can('update', $recipe)
+                        <a href="{{ route('recipes.edit', $recipe) }}" class="inline-flex items-center px-4 py-2 bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-500 rounded-md font-semibold text-xs text-gray-700 dark:text-gray-300 uppercase tracking-widest shadow-sm hover:bg-gray-50 dark:hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 dark:focus:ring-offset-gray-800">
+                            Edit
+                        </a>
+                    @endcan
+
+                    {{-- only shows for coaches and admins (RecipePolicy@hide) --}}
+                    @can('hide', $recipe)
+                        <form method="POST" action="{{ route('recipes.hide', $recipe) }}">
+                            @csrf
+                            @method('PATCH')
+                            <x-secondary-button type="submit">
+                                {{ $recipe->is_hidden ? 'Unhide recipe' : 'Hide recipe' }}
+                            </x-secondary-button>
+                        </form>
+                    @endcan
+
+                    {{-- owner or admin (RecipePolicy@delete), asks before deleting --}}
+                    @can('delete', $recipe)
+                        <form method="POST" action="{{ route('recipes.destroy', $recipe) }}"
+                            onsubmit="return confirm('Delete this recipe? Its comments and likes will be deleted too.');">
+                            @csrf
+                            @method('DELETE')
+                            <x-danger-button type="submit">Delete</x-danger-button>
+                        </form>
+                    @endcan
+                </div>
             </div>
 
             @if ($recipe->is_hidden)
@@ -31,24 +50,30 @@
                 </p>
             @endif
 
-            <section class="rounded-lg bg-white p-6 shadow-sm dark:bg-gray-800">
-                <p class="text-gray-800 dark:text-gray-200">{{ $recipe->description }}</p>
-
-                <x-macro-badges :recipe="$recipe" class="mt-4" />
-
-                <p class="mt-4 text-sm text-gray-600 dark:text-gray-400">
-                    {{ $recipe->prep_minutes }} mins
-                    · serves {{ $recipe->servings }}
-                    · {{ $recipe->likes_count }} {{ Str::plural('like', $recipe->likes_count) }}
-                </p>
-
-                @if ($recipe->tags->isNotEmpty())
-                    <ul class="mt-3 flex flex-wrap gap-1.5 text-xs" aria-label="Tags">
-                        @foreach ($recipe->tags as $tag)
-                            <li class="rounded bg-gray-100 px-2 py-0.5 text-gray-700 dark:bg-gray-700 dark:text-gray-200">{{ $tag->name }}</li>
-                        @endforeach
-                    </ul>
+            <section class="overflow-hidden rounded-lg bg-white shadow-sm dark:bg-gray-800">
+                @if ($recipe->image_url)
+                    <img src="{{ $recipe->image_url }}" alt="Photo of {{ $recipe->title }}" class="h-72 w-full object-cover">
                 @endif
+
+                <div class="p-6">
+                    <p class="text-gray-800 dark:text-gray-200">{{ $recipe->description }}</p>
+
+                    <x-macro-badges :recipe="$recipe" class="mt-4" />
+
+                    <p class="mt-4 text-sm text-gray-600 dark:text-gray-400">
+                        {{ $recipe->prep_minutes }} mins
+                        · serves {{ $recipe->servings }}
+                        · {{ $recipe->likes_count }} {{ Str::plural('like', $recipe->likes_count) }}
+                    </p>
+
+                    @if ($recipe->tags->isNotEmpty())
+                        <ul class="mt-3 flex flex-wrap gap-1.5 text-xs" aria-label="Tags">
+                            @foreach ($recipe->tags as $tag)
+                                <li class="rounded bg-gray-100 px-2 py-0.5 text-gray-700 dark:bg-gray-700 dark:text-gray-200">{{ $tag->name }}</li>
+                            @endforeach
+                        </ul>
+                    @endif
+                </div>
             </section>
 
             <div class="grid gap-6 md:grid-cols-2">

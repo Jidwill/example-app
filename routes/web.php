@@ -14,10 +14,9 @@ Route::view('profile', 'profile')
     ->name('profile');
 
 // recipes - you have to be logged in for all of these
-// resource() makes the named routes for me (recipes.index, recipes.show etc.)
-// edit, update and destroy get added once the policies are done
+// resource() makes all 7 named routes for me (recipes.index, recipes.edit etc.),
+// and the policies decide who can actually edit or delete
 Route::resource('recipes', RecipeController::class)
-    ->only(['index', 'create', 'store', 'show'])
     ->middleware('auth');
 
 // coaches and admins can hide a recipe (checked in RecipePolicy@hide)

@@ -12,6 +12,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\MorphMany;
+use Illuminate\Support\Facades\Storage;
 
 #[Fillable([
     'title',
@@ -41,6 +42,46 @@ class Recipe extends Model
         return [
             'is_hidden' => 'boolean',
         ];
+    }
+
+    /**
+     * Clean up when a recipe is deleted. Comments go automatically because of the
+     * foreign key cascade, but likes are polymorphic so the database can't cascade them,
+     * and the image file lives on disk rather than in the database.
+     */
+    protected static function booted(): void
+    {
+        static::deleting(function (Recipe $recipe) {
+            $recipe->likes()->delete();
+
+            // likes on this recipe's comments, since those comments are about to go too
+            Like::where('likeable_type', Comment::class)
+                ->whereIn('likeable_id', $recipe->comments()->select('id'))
+                ->delete();
+
+            $recipe->deleteImage();
+        });
+    }
+
+    /**
+     * Full URL for the recipe photo, or null if there isn't one.
+     * asset() uses the current site address so it works whatever APP_URL is set to.
+     */
+    protected function imageUrl(): Attribute
+    {
+        return Attribute::make(
+            get: fn () => $this->image_path ? asset('storage/'.$this->image_path) : null,
+        );
+    }
+
+    /**
+     * Delete the photo file from storage/app/public (used when replacing or removing it).
+     */
+    public function deleteImage(): void
+    {
+        if ($this->image_path) {
+            Storage::disk('public')->delete($this->image_path);
+        }
     }
 
     /**

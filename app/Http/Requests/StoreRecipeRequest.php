@@ -36,6 +36,8 @@ class StoreRecipeRequest extends FormRequest
             // tags are optional, but any that are sent have to actually exist
             'tags' => ['nullable', 'array'],
             'tags.*' => ['integer', 'distinct', 'exists:tags,id'],
+            // optional photo, up to 2MB
+            'image' => ['nullable', 'image', 'mimes:jpg,jpeg,png,webp', 'max:2048'],
         ];
     }
 
@@ -49,6 +51,7 @@ class StoreRecipeRequest extends FormRequest
         return [
             'prep_minutes' => 'prep time',
             'tags.*' => 'tag',
+            'image' => 'photo',
         ];
     }
 }
