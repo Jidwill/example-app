@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\RecipeController;
+use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
 
 Route::view('/', 'welcome');
@@ -18,6 +19,12 @@ Route::view('profile', 'profile')
 // and the policies decide who can actually edit or delete
 Route::resource('recipes', RecipeController::class)
     ->middleware('auth');
+
+// public user pages - clicking someone's name shows their recipes and comments.
+// Not /profile because Breeze already uses that for your own account settings
+Route::get('users/{user}', [UserController::class, 'show'])
+    ->middleware('auth')
+    ->name('users.show');
 
 // coaches and admins can hide a recipe (checked in RecipePolicy@hide)
 Route::patch('recipes/{recipe}/hide', [RecipeController::class, 'toggleHidden'])

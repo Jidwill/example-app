@@ -9,7 +9,7 @@
         <div class="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
             {{-- HTML forms can only send GET or POST, so @method('PUT') adds a hidden
                  _method field and Laravel treats it as a PUT to recipes.update --}}
-            <form method="POST" action="{{ route('recipes.update', $recipe) }}" enctype="multipart/form-data" class="space-y-6 rounded-lg bg-white p-6 shadow-sm dark:bg-gray-800">
+            <form method="POST" action="{{ route('recipes.update', $recipe) }}" enctype="multipart/form-data" novalidate class="space-y-6 rounded-lg bg-white p-6 shadow-sm dark:bg-gray-800">
                 @csrf
                 @method('PUT')
 

@@ -4,7 +4,7 @@
             {{ $recipe->title }}
         </h2>
         <p class="mt-1 text-sm text-gray-600 dark:text-gray-400">
-            Posted by {{ $recipe->user->name }}<x-role-badge :user="$recipe->user" /> · {{ $recipe->created_at->diffForHumans() }}
+            Posted by <x-user-link :user="$recipe->user" /> · {{ $recipe->created_at->diffForHumans() }}
         </p>
     </x-slot>
 

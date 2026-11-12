@@ -8,8 +8,10 @@
     <div class="py-8">
         <div class="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
             {{-- always say method="POST" rather than relying on the default (lecture 2.2),
-                 and enctype is needed or the photo doesn't get sent --}}
-            <form method="POST" action="{{ route('recipes.store') }}" enctype="multipart/form-data" class="space-y-6 rounded-lg bg-white p-6 shadow-sm dark:bg-gray-800">
+                 enctype is needed or the photo doesn't get sent, and novalidate turns off the
+                 browser's own pop-ups so Laravel's validation messages show instead
+                 (the required attributes stay so screen readers still know which fields are needed) --}}
+            <form method="POST" action="{{ route('recipes.store') }}" enctype="multipart/form-data" novalidate class="space-y-6 rounded-lg bg-white p-6 shadow-sm dark:bg-gray-800">
                 @csrf
 
                 @include('recipes.partials.form')

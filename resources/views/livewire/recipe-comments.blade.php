@@ -139,7 +139,7 @@ new class extends Component
         <article wire:key="comment-{{ $comment->id }}" class="mt-4 border-t border-gray-200 pt-4 dark:border-gray-700">
             <div class="flex flex-wrap items-center justify-between gap-2">
                 <p class="text-sm text-gray-600 dark:text-gray-400">
-                    <span class="font-medium text-gray-900 dark:text-gray-100">{{ $comment->user->name }}</span><x-role-badge :user="$comment->user" />
+                    <x-user-link :user="$comment->user" />
                     · {{ $comment->created_at->diffForHumans() }}
                     {{-- so it's obvious when a comment was changed, e.g. by a coach --}}
                     @if ($comment->updated_at->gt($comment->created_at))
