@@ -76,6 +76,31 @@
     <p class="mt-2 text-sm text-gray-600 dark:text-gray-400">Calories are worked out for you from these.</p>
 </fieldset>
 
+{{-- "Don't know the macros?" helper. The food-lookup component sends totals for the whole recipe
+     as a browser event, and this Alpine code divides them by the servings box and fills in the
+     protein, carbs and fat boxes above. It also adds the ingredients to the ingredients list --}}
+<details x-data="{
+        message: '',
+        fill(totals) {
+            const servings = Math.max(1, parseInt(document.getElementById('servings').value) || 1);
+            for (const field of ['protein', 'carbs', 'fat']) {
+                document.getElementById(field).value = Math.round(totals[field] / servings);
+            }
+            const ingredients = document.getElementById('ingredients');
+            ingredients.value = [ingredients.value.trim(), ...totals.ingredients].filter(Boolean).join('\n');
+            this.message = `Macros filled in for ${servings} ${servings === 1 ? 'serving' : 'servings'}, and the ingredients were added to the list.`;
+        }
+    }" x-on:fill-macros.window="fill($event.detail)">
+    <summary class="cursor-pointer text-sm font-medium text-indigo-700 hover:underline focus:outline-none focus:ring-2 focus:ring-indigo-500 rounded dark:text-indigo-300">
+        Don't know the macros? Work them out from your ingredients
+    </summary>
+    <div class="mt-3">
+        <livewire:food-lookup />
+    </div>
+    {{-- read out by screen readers after the boxes are filled in --}}
+    <p role="status" x-text="message" class="mt-2 text-sm text-green-700 dark:text-green-400"></p>
+</details>
+
 <div>
     <x-input-label for="image" value="Photo (optional, JPG, PNG or WebP, up to 2MB)" />
 

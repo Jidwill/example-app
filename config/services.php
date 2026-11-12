@@ -28,6 +28,16 @@ return [
         'region' => env('AWS_DEFAULT_REGION', 'us-east-1'),
     ],
 
+    // the food lookup on the recipe form (see FoodLookupServiceProvider).
+    // driver: "open_food_facts" (the real API) or "local" (built-in list, no internet needed)
+    'food_lookup' => [
+        'driver' => env('FOOD_LOOKUP_DRIVER', 'open_food_facts'),
+        'open_food_facts_url' => env('OPEN_FOOD_FACTS_URL', 'https://world.openfoodfacts.org'),
+        'user_agent' => 'MacroMeals/1.0 (Swansea University student coursework project)',
+        'timeout' => 8, // seconds before giving up
+        'cache_minutes' => 1440, // remember search results for a day
+    ],
+
     'slack' => [
         'notifications' => [
             'bot_user_oauth_token' => env('SLACK_BOT_USER_OAUTH_TOKEN'),
