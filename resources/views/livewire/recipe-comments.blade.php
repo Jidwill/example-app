@@ -136,7 +136,7 @@ new class extends Component
     @endcan
 
     @forelse ($this->comments as $comment)
-        <article wire:key="comment-{{ $comment->id }}" class="mt-4 border-t border-gray-200 pt-4 dark:border-gray-700">
+        <article wire:key="comment-{{ $comment->id }}" id="comment-{{ $comment->id }}" class="scroll-mt-24 mt-4 border-t border-gray-200 pt-4 dark:border-gray-700">
             <div class="flex flex-wrap items-center justify-between gap-2">
                 <p class="text-sm text-gray-600 dark:text-gray-400">
                     <x-user-link :user="$comment->user" />

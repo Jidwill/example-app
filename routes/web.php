@@ -26,6 +26,11 @@ Route::get('users/{user}', [UserController::class, 'show'])
     ->middleware('auth')
     ->name('users.show');
 
+// your notifications (likes and comments on your stuff) - the list itself is a Livewire component
+Route::view('notifications', 'notifications.index')
+    ->middleware('auth')
+    ->name('notifications.index');
+
 // coaches and admins can hide a recipe (checked in RecipePolicy@hide)
 Route::patch('recipes/{recipe}/hide', [RecipeController::class, 'toggleHidden'])
     ->middleware('auth')

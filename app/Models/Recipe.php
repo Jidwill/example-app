@@ -12,6 +12,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\MorphMany;
+use Illuminate\Notifications\DatabaseNotification;
 use Illuminate\Support\Facades\Storage;
 
 #[Fillable([
@@ -58,6 +59,9 @@ class Recipe extends Model
             Like::where('likeable_type', Comment::class)
                 ->whereIn('likeable_id', $recipe->comments()->select('id'))
                 ->delete();
+
+            // notifications about this recipe (comments and likes on it) would link to a 404 otherwise
+            DatabaseNotification::whereJsonContains('data->recipe_id', $recipe->id)->delete();
 
             $recipe->deleteImage();
         });
