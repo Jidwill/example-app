@@ -147,4 +147,40 @@ class Recipe extends Model
             get: fn () => ($this->protein * 4) + ($this->carbs * 4) + ($this->fat * 9),
         );
     }
+
+    /**
+     * The same calories sum as above, but as SQL, so the database can filter and sort by it
+     * (calories aren't a column, so the query has to work them out).
+     */
+    public const CALORIES_SQL = '(protein * 4 + carbs * 4 + fat * 9)';
+
+    /**
+     * Applies the filters from the recipes page. Every filter is optional.
+     *
+     * @param  array{tag?: int|string|null, min_protein?: int|string|null, max_calories?: int|string|null, sort?: string|null}  $filters
+     */
+    public function scopeFilter(Builder $query, array $filters): void
+    {
+        // only recipes with this tag (through the recipe_tag pivot table)
+        $query->when($filters['tag'] ?? null, function (Builder $query, $tagId) {
+            $query->whereHas('tags', fn (Builder $tags) => $tags->whereKey($tagId));
+        });
+
+        $query->when($filters['min_protein'] ?? null, function (Builder $query, $grams) {
+            $query->where('protein', '>=', (int) $grams);
+        });
+
+        // the value is passed as a binding (?) so it can't be used for SQL injection
+        $query->when($filters['max_calories'] ?? null, function (Builder $query, $kcal) {
+            $query->whereRaw(self::CALORIES_SQL.' <= ?', [(int) $kcal]);
+        });
+
+        match ($filters['sort'] ?? 'newest') {
+            'protein' => $query->orderByDesc('protein')->latest(),
+            // grams of protein per 100 kcal - the best "lean" recipes first.
+            // NULLIF stops a divide by zero if a recipe somehow has 0 calories
+            'lean' => $query->orderByRaw('protein * 100.0 / NULLIF('.self::CALORIES_SQL.', 0) DESC')->latest(),
+            default => $query->latest(),
+        };
+    }
 }

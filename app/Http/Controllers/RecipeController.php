@@ -2,32 +2,41 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\FilterRecipesRequest;
 use App\Http\Requests\StoreRecipeRequest;
 use App\Http\Requests\UpdateRecipeRequest;
 use App\Models\Recipe;
 use App\Models\Tag;
 use Illuminate\Http\RedirectResponse;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\View\View;
 
 class RecipeController extends Controller
 {
     /**
-     * Show all the recipes as cards, 9 per page.
+     * Show all the recipes as cards, 9 per page, with optional filters
+     * (tag, minimum protein, maximum calories) and sorting.
      */
-    public function index(Request $request): View
+    public function index(FilterRecipesRequest $request): View
     {
+        $filters = $request->validated();
+
         // eager load the user and tags so each card doesn't run its own queries (N+1),
         // and withCount adds comments_count and likes_count without loading every row.
-        // visibleTo() leaves out hidden recipes unless you're allowed to see them
+        // visibleTo() leaves out hidden recipes unless you're allowed to see them,
+        // and filter() is the scope in the Recipe model that applies the filters
         $recipes = Recipe::visibleTo($request->user())
+            ->filter($filters)
             ->with(['user', 'tags'])
             ->withCount(['comments', 'likes'])
-            ->latest()
-            ->paginate(9);
+            ->paginate(9)
+            ->withQueryString(); // so page 2 keeps the same filters
 
-        return view('recipes.index', ['recipes' => $recipes]);
+        return view('recipes.index', [
+            'recipes' => $recipes,
+            'tags' => Tag::orderBy('name')->get(),
+            'filters' => $filters,
+        ]);
     }
 
     /**

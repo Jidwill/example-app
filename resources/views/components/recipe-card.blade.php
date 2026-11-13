@@ -41,11 +41,12 @@
         </p>
 
         <x-macro-badges :recipe="$recipe" class="mt-4" />
+        <x-macro-fit :recipe="$recipe" compact class="mt-2" />
 
         @if ($recipe->tags->isNotEmpty())
             <ul class="mt-3 flex flex-wrap gap-1.5 text-xs" aria-label="Tags">
                 @foreach ($recipe->tags as $tag)
-                    <li class="rounded bg-gray-100 px-2 py-0.5 text-gray-700 dark:bg-gray-700 dark:text-gray-200">{{ $tag->name }}</li>
+                    <li><a href="{{ route('recipes.index', ['tag' => $tag->id]) }}" class="block rounded bg-gray-100 px-2 py-0.5 text-gray-700 hover:bg-gray-200 hover:underline focus:outline-none focus:ring-2 focus:ring-indigo-500 dark:bg-gray-700 dark:text-gray-200 dark:hover:bg-gray-600" aria-label="Show all {{ $tag->name }} recipes">{{ $tag->name }}</a></li>
                 @endforeach
             </ul>
         @endif
