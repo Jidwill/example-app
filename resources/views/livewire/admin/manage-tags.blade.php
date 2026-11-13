@@ -124,7 +124,7 @@ new class extends Component
                         <span class="text-sm text-gray-600 dark:text-gray-400">· {{ $tag->recipes_count }} {{ Str::plural('recipe', $tag->recipes_count) }}</span>
                     </p>
                     <div class="flex items-center gap-4">
-                        <button type="button" wire:click="startEditing({{ $tag->id }})" class="text-sm font-medium text-indigo-700 hover:underline focus:outline-none focus:ring-2 focus:ring-indigo-500 rounded dark:text-indigo-300">
+                        <button type="button" wire:click="startEditing({{ $tag->id }})" class="text-sm font-medium text-emerald-700 hover:underline focus:outline-none focus:ring-2 focus:ring-emerald-600 rounded dark:text-emerald-300">
                             Rename<span class="sr-only"> {{ $tag->name }}</span>
                         </button>
                         <button type="button" wire:click="deleteTag({{ $tag->id }})" wire:confirm="Delete the {{ $tag->name }} tag? It will be removed from {{ $tag->recipes_count }} {{ Str::plural('recipe', $tag->recipes_count) }}."

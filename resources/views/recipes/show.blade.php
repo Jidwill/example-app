@@ -13,12 +13,12 @@
     <div class="py-8">
         <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 space-y-6">
             <div class="flex flex-wrap items-center justify-between gap-4">
-                <a href="{{ route('recipes.index') }}" class="text-sm text-indigo-700 hover:underline dark:text-indigo-300">&larr; Back to all recipes</a>
+                <a href="{{ route('recipes.index') }}" class="text-sm text-emerald-700 hover:underline dark:text-emerald-300">&larr; Back to all recipes</a>
 
                 <div class="flex flex-wrap items-center gap-3">
                     {{-- owner or admin (RecipePolicy@update) --}}
                     @can('update', $recipe)
-                        <a href="{{ route('recipes.edit', $recipe) }}" class="inline-flex items-center px-4 py-2 bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-500 rounded-md font-semibold text-xs text-gray-700 dark:text-gray-300 uppercase tracking-widest shadow-sm hover:bg-gray-50 dark:hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 dark:focus:ring-offset-gray-800">
+                        <a href="{{ route('recipes.edit', $recipe) }}" class="inline-flex items-center px-4 py-2 bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-500 rounded-md font-semibold text-xs text-gray-700 dark:text-gray-300 uppercase tracking-widest shadow-sm hover:bg-gray-50 dark:hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-emerald-600 focus:ring-offset-2 dark:focus:ring-offset-gray-800">
                             Edit
                         </a>
                     @endcan
@@ -74,7 +74,7 @@
                     @if ($recipe->tags->isNotEmpty())
                         <ul class="mt-3 flex flex-wrap gap-1.5 text-xs" aria-label="Tags">
                             @foreach ($recipe->tags as $tag)
-                                <li><a href="{{ route('recipes.index', ['tag' => $tag->id]) }}" class="block rounded bg-gray-100 px-2 py-0.5 text-gray-700 hover:bg-gray-200 hover:underline focus:outline-none focus:ring-2 focus:ring-indigo-500 dark:bg-gray-700 dark:text-gray-200 dark:hover:bg-gray-600" aria-label="Show all {{ $tag->name }} recipes">{{ $tag->name }}</a></li>
+                                <li><a href="{{ route('recipes.index', ['tag' => $tag->id]) }}" class="block rounded bg-gray-100 px-2 py-0.5 text-gray-700 hover:bg-gray-200 hover:underline focus:outline-none focus:ring-2 focus:ring-emerald-600 dark:bg-gray-700 dark:text-gray-200 dark:hover:bg-gray-600" aria-label="Show all {{ $tag->name }} recipes">{{ $tag->name }}</a></li>
                             @endforeach
                         </ul>
                     @endif

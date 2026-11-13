@@ -16,7 +16,7 @@
 
             {{-- your own page links to where you can change your goal and targets --}}
             @if (auth()->id() === $user->id)
-                <a href="{{ route('profile') }}" class="text-sm font-medium text-indigo-700 hover:underline dark:text-indigo-300">Edit my goal and targets</a>
+                <a href="{{ route('profile') }}" class="text-sm font-medium text-emerald-700 hover:underline dark:text-emerald-300">Edit my goal and targets</a>
             @endif
         </div>
     </x-slot>
@@ -80,7 +80,7 @@
                     <article class="mt-4 border-t border-gray-200 pt-4 dark:border-gray-700">
                         <p class="text-sm text-gray-600 dark:text-gray-400">
                             On
-                            <a href="{{ route('recipes.show', $comment->recipe) }}" class="font-medium text-indigo-700 underline hover:no-underline focus:outline-none focus:ring-2 focus:ring-indigo-500 rounded dark:text-indigo-300">{{ $comment->recipe->title }}</a>
+                            <a href="{{ route('recipes.show', $comment->recipe) }}" class="font-medium text-emerald-700 underline hover:no-underline focus:outline-none focus:ring-2 focus:ring-emerald-600 rounded dark:text-emerald-300">{{ $comment->recipe->title }}</a>
                             · {{ $comment->created_at->diffForHumans() }}
                         </p>
                         <p class="mt-1 whitespace-pre-line text-gray-800 dark:text-gray-200">{{ $comment->body }}</p>

@@ -31,7 +31,7 @@
         @if ($profile)
             <p class="mt-1 text-sm text-gray-600 dark:text-gray-400">
                 Based on your {{ $profile->goal }} targets.
-                <a href="{{ route('profile') }}" class="text-indigo-700 underline hover:no-underline dark:text-indigo-300">Change them</a>
+                <a href="{{ route('profile') }}" class="text-emerald-700 underline hover:no-underline dark:text-emerald-300">Change them</a>
             </p>
 
             <div class="mt-4 space-y-4">
@@ -50,7 +50,7 @@
             </div>
         @else
             <p class="mt-2 text-sm text-gray-600 dark:text-gray-400">
-                <a href="{{ route('profile') }}" class="text-indigo-700 underline hover:no-underline dark:text-indigo-300">Set your daily targets</a>
+                <a href="{{ route('profile') }}" class="text-emerald-700 underline hover:no-underline dark:text-emerald-300">Set your daily targets</a>
                 to see how much of your day this recipe covers.
             </p>
         @endif

@@ -125,7 +125,7 @@ new class extends Component
             <textarea id="new-comment" wire:model="body" rows="3" maxlength="1000"
                 aria-describedby="new-comment-error" aria-invalid="{{ $errors->has('body') ? 'true' : 'false' }}"
                 placeholder="Tried it? Swapped something? Let people know."
-                class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 dark:border-gray-700 dark:bg-gray-900 dark:text-gray-300"></textarea>
+                class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-emerald-600 focus:ring-emerald-600 dark:border-gray-700 dark:bg-gray-900 dark:text-gray-300"></textarea>
             <x-input-error id="new-comment-error" :messages="$errors->get('body')" class="mt-2" />
 
             <div class="mt-3 flex items-center gap-3">
@@ -153,7 +153,7 @@ new class extends Component
                     @if ($editingId !== $comment->id)
                         @can('update', $comment)
                             <button type="button" wire:click="startEditing({{ $comment->id }})"
-                                class="text-sm font-medium text-indigo-700 hover:underline focus:outline-none focus:ring-2 focus:ring-indigo-500 rounded dark:text-indigo-300">
+                                class="text-sm font-medium text-emerald-700 hover:underline focus:outline-none focus:ring-2 focus:ring-emerald-600 rounded dark:text-emerald-300">
                                 Edit<span class="sr-only"> comment by {{ $comment->user->name }}</span>
                             </button>
                         @endcan
@@ -175,7 +175,7 @@ new class extends Component
                     {{-- x-init moves keyboard focus into the box when editing starts --}}
                     <textarea id="edit-comment-{{ $comment->id }}" wire:model="editBody" rows="3" maxlength="1000" x-init="$el.focus()"
                         aria-describedby="edit-comment-error" aria-invalid="{{ $errors->has('editBody') ? 'true' : 'false' }}"
-                        class="block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 dark:border-gray-700 dark:bg-gray-900 dark:text-gray-300"></textarea>
+                        class="block w-full rounded-md border-gray-300 shadow-sm focus:border-emerald-600 focus:ring-emerald-600 dark:border-gray-700 dark:bg-gray-900 dark:text-gray-300"></textarea>
                     <x-input-error id="edit-comment-error" :messages="$errors->get('editBody')" class="mt-2" />
 
                     <div class="mt-2 flex items-center gap-3">

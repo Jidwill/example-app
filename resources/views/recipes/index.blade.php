@@ -7,7 +7,7 @@
                 Recipes
             </h1>
             @can('create', App\Models\Recipe::class)
-                <a href="{{ route('recipes.create') }}" class="inline-flex items-center px-4 py-2 bg-gray-800 dark:bg-gray-200 rounded-md font-semibold text-xs text-white dark:text-gray-800 uppercase tracking-widest hover:bg-gray-700 dark:hover:bg-white focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 dark:focus:ring-offset-gray-800">
+                <a href="{{ route('recipes.create') }}" class="inline-flex items-center px-4 py-2 bg-emerald-700 rounded-md font-semibold text-xs text-white uppercase tracking-widest hover:bg-emerald-800 focus:outline-none focus:ring-2 focus:ring-emerald-600 focus:ring-offset-2 dark:focus:ring-offset-gray-800">
                     Post a recipe
                 </a>
             @endcan
@@ -24,7 +24,7 @@
                 <div>
                     <x-input-label for="filter-tag" value="Tag" />
                     <select id="filter-tag" name="tag"
-                        class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 dark:border-gray-700 dark:bg-gray-900 dark:text-gray-300">
+                        class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-emerald-600 focus:ring-emerald-600 dark:border-gray-700 dark:bg-gray-900 dark:text-gray-300">
                         <option value="">All tags</option>
                         @foreach ($tags as $tag)
                             <option value="{{ $tag->id }}" @selected(($filters['tag'] ?? null) == $tag->id)>{{ $tag->name }}</option>
@@ -47,7 +47,7 @@
                 <div>
                     <x-input-label for="filter-sort" value="Sort by" />
                     <select id="filter-sort" name="sort"
-                        class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 dark:border-gray-700 dark:bg-gray-900 dark:text-gray-300">
+                        class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-emerald-600 focus:ring-emerald-600 dark:border-gray-700 dark:bg-gray-900 dark:text-gray-300">
                         <option value="newest" @selected(($filters['sort'] ?? 'newest') === 'newest')>Newest</option>
                         <option value="protein" @selected(($filters['sort'] ?? null) === 'protein')>Most protein</option>
                         <option value="lean" @selected(($filters['sort'] ?? null) === 'lean')>Most protein per calorie</option>
@@ -70,7 +70,7 @@
             @if ($recipes->isEmpty())
                 <p class="text-gray-700 dark:text-gray-300">
                     @if ($filtering)
-                        Nothing matches those filters. Try a lower protein or higher calorie limit, or <a href="{{ route('recipes.index') }}" class="text-indigo-700 underline dark:text-indigo-300">clear them</a>.
+                        Nothing matches those filters. Try a lower protein or higher calorie limit, or <a href="{{ route('recipes.index') }}" class="text-emerald-700 underline dark:text-emerald-300">clear them</a>.
                     @else
                         No recipes yet. Be the first to post one!
                     @endif

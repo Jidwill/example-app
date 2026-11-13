@@ -6,7 +6,7 @@
     $recipe ??= null;
     // after a failed submit use what was ticked, otherwise the recipe's current tags
     $checkedTags = $errors->any() ? old('tags', []) : ($recipe?->tags->pluck('id')->all() ?? []);
-    $textareaClasses = 'mt-1 block w-full border-gray-300 dark:border-gray-700 dark:bg-gray-900 dark:text-gray-300 focus:border-indigo-500 focus:ring-indigo-500 rounded-md shadow-sm';
+    $textareaClasses = 'mt-1 block w-full border-gray-300 dark:border-gray-700 dark:bg-gray-900 dark:text-gray-300 focus:border-emerald-600 focus:ring-emerald-600 rounded-md shadow-sm';
 @endphp
 
 <div>
@@ -91,7 +91,7 @@
             this.message = `Macros filled in for ${servings} ${servings === 1 ? 'serving' : 'servings'}, and the ingredients were added to the list.`;
         }
     }" x-on:fill-macros.window="fill($event.detail)">
-    <summary class="cursor-pointer text-sm font-medium text-indigo-700 hover:underline focus:outline-none focus:ring-2 focus:ring-indigo-500 rounded dark:text-indigo-300">
+    <summary class="cursor-pointer text-sm font-medium text-emerald-700 hover:underline focus:outline-none focus:ring-2 focus:ring-emerald-600 rounded dark:text-emerald-300">
         Don't know the macros? Work them out from your ingredients
     </summary>
     <div class="mt-3">
@@ -109,7 +109,7 @@
             <img src="{{ $recipe->image_url }}" alt="Current photo of {{ $recipe->title }}" class="h-20 w-28 rounded object-cover">
             <label class="inline-flex items-center gap-2 text-sm text-gray-800 dark:text-gray-200">
                 <input type="checkbox" name="remove_image" value="1" @checked(old('remove_image'))
-                    class="rounded border-gray-300 text-indigo-600 shadow-sm focus:ring-indigo-500 dark:border-gray-700 dark:bg-gray-900">
+                    class="rounded border-gray-300 text-emerald-600 shadow-sm focus:ring-emerald-600 dark:border-gray-700 dark:bg-gray-900">
                 Remove current photo
             </label>
         </div>
@@ -131,7 +131,7 @@
             <label class="inline-flex items-center gap-2 text-sm text-gray-800 dark:text-gray-200">
                 <input type="checkbox" name="tags[]" value="{{ $tag->id }}"
                     @checked(in_array($tag->id, $checkedTags))
-                    class="rounded border-gray-300 text-indigo-600 shadow-sm focus:ring-indigo-500 dark:border-gray-700 dark:bg-gray-900">
+                    class="rounded border-gray-300 text-emerald-600 shadow-sm focus:ring-emerald-600 dark:border-gray-700 dark:bg-gray-900">
                 {{ $tag->name }}
             </label>
         @endforeach

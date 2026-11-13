@@ -72,12 +72,12 @@ new class extends Component
         @forelse ($this->notifications as $notification)
             @php($data = $notification->data)
             <li wire:key="notification-{{ $notification->id }}"
-                class="flex flex-wrap items-start justify-between gap-3 py-4 {{ $notification->unread() ? 'bg-indigo-50 -mx-3 px-3 rounded dark:bg-indigo-900/30' : '' }}">
+                class="flex flex-wrap items-start justify-between gap-3 py-4 {{ $notification->unread() ? 'bg-emerald-50 -mx-3 px-3 rounded dark:bg-emerald-900/30' : '' }}">
                 <div class="min-w-0 flex-1">
                     <p class="text-gray-800 dark:text-gray-200">
                         {{-- "New" in words as well as the coloured background, so it doesn't rely on colour alone --}}
                         @if ($notification->unread())
-                            <span class="me-1 rounded bg-indigo-600 px-1.5 py-0.5 text-xs font-semibold text-white">New</span>
+                            <span class="me-1 rounded bg-emerald-600 px-1.5 py-0.5 text-xs font-semibold text-white">New</span>
                         @endif
 
                         <span class="font-semibold">{{ $data['actor_name'] }}</span>
@@ -103,13 +103,13 @@ new class extends Component
 
                 <div class="flex items-center gap-3">
                     <button type="button" wire:click="open('{{ $notification->id }}')"
-                        class="text-sm font-medium text-indigo-700 hover:underline focus:outline-none focus:ring-2 focus:ring-indigo-500 rounded dark:text-indigo-300">
+                        class="text-sm font-medium text-emerald-700 hover:underline focus:outline-none focus:ring-2 focus:ring-emerald-600 rounded dark:text-emerald-300">
                         View<span class="sr-only"> {{ $data['recipe_title'] }}</span>
                     </button>
 
                     @if ($notification->unread())
                         <button type="button" wire:click="markAsRead('{{ $notification->id }}')"
-                            class="text-sm font-medium text-gray-700 hover:underline focus:outline-none focus:ring-2 focus:ring-indigo-500 rounded dark:text-gray-300">
+                            class="text-sm font-medium text-gray-700 hover:underline focus:outline-none focus:ring-2 focus:ring-emerald-600 rounded dark:text-gray-300">
                             Mark as read
                         </button>
                     @endif

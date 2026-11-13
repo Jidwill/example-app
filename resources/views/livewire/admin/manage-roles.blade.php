@@ -101,7 +101,7 @@ new class extends Component
                             @else
                                 <label for="role-{{ $user->id }}" class="sr-only">Role for {{ $user->name }}</label>
                                 <select id="role-{{ $user->id }}" wire:change="changeRole({{ $user->id }}, $event.target.value)"
-                                    class="rounded-md border-gray-300 py-1 text-sm shadow-sm focus:border-indigo-500 focus:ring-indigo-500 dark:border-gray-700 dark:bg-gray-900 dark:text-gray-300">
+                                    class="rounded-md border-gray-300 py-1 text-sm shadow-sm focus:border-emerald-600 focus:ring-emerald-600 dark:border-gray-700 dark:bg-gray-900 dark:text-gray-300">
                                     @foreach (['member', 'coach', 'admin'] as $role)
                                         <option value="{{ $role }}" @selected($user->role === $role)>{{ ucfirst($role) }}</option>
                                     @endforeach

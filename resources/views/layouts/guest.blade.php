@@ -17,7 +17,7 @@
     <body class="font-sans text-gray-900 antialiased">
         <div class="min-h-screen flex flex-col sm:justify-center items-center pt-6 sm:pt-0 bg-gray-100 dark:bg-gray-900">
             <header>
-                <a href="/" wire:navigate class="flex flex-col items-center gap-2 rounded focus:outline-none focus:ring-2 focus:ring-indigo-500">
+                <a href="/" wire:navigate class="flex flex-col items-center gap-2 rounded focus:outline-none focus:ring-2 focus:ring-emerald-600">
                     <x-application-logo class="w-16 h-16 fill-current text-emerald-700 dark:text-emerald-400" />
                     <span class="text-xl font-bold text-gray-900 dark:text-gray-100">MacroMeals</span>
                 </a>

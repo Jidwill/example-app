@@ -24,8 +24,8 @@
             </p>
 
             <div class="mt-6 flex gap-3">
-                <a href="{{ route('login') }}" class="rounded-md bg-emerald-700 px-5 py-2 font-semibold text-white hover:bg-emerald-800 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2">Log in</a>
-                <a href="{{ route('register') }}" class="rounded-md border border-gray-300 bg-white px-5 py-2 font-semibold text-gray-900 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-indigo-500 dark:border-gray-600 dark:bg-gray-800 dark:text-gray-100">Register</a>
+                <a href="{{ route('login') }}" class="rounded-md bg-emerald-700 px-5 py-2 font-semibold text-white hover:bg-emerald-800 focus:outline-none focus:ring-2 focus:ring-emerald-600 focus:ring-offset-2">Log in</a>
+                <a href="{{ route('register') }}" class="rounded-md border border-gray-300 bg-white px-5 py-2 font-semibold text-gray-900 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-emerald-600 dark:border-gray-600 dark:bg-gray-800 dark:text-gray-100">Register</a>
             </div>
 
             <p class="mt-12 text-sm text-gray-600 dark:text-gray-400">

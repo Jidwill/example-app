@@ -17,7 +17,7 @@
     </head>
     <body class="font-sans antialiased">
         {{-- lets keyboard users jump past the nav (WCAG 2.4.1). Hidden until it gets focus --}}
-        <a href="#main" class="sr-only focus:not-sr-only focus:fixed focus:left-4 focus:top-4 focus:z-50 focus:rounded focus:bg-white focus:px-4 focus:py-2 focus:text-gray-900 focus:shadow focus:outline-none focus:ring-2 focus:ring-indigo-500">Skip to main content</a>
+        <a href="#main" class="sr-only focus:not-sr-only focus:fixed focus:left-4 focus:top-4 focus:z-50 focus:rounded focus:bg-white focus:px-4 focus:py-2 focus:text-gray-900 focus:shadow focus:outline-none focus:ring-2 focus:ring-emerald-600">Skip to main content</a>
 
         <div class="min-h-screen bg-gray-100 dark:bg-gray-900">
             <livewire:layout.navigation />

@@ -72,7 +72,7 @@ new class extends Component
                 @foreach (['bulk' => 'Bulk', 'cut' => 'Cut', 'maintain' => 'Maintain'] as $value => $label)
                     <label class="inline-flex items-center gap-2 text-sm text-gray-800 dark:text-gray-200">
                         <input type="radio" wire:model="goal" name="goal" value="{{ $value }}"
-                            class="border-gray-300 text-indigo-600 shadow-sm focus:ring-indigo-500 dark:border-gray-700 dark:bg-gray-900">
+                            class="border-gray-300 text-emerald-600 shadow-sm focus:ring-emerald-600 dark:border-gray-700 dark:bg-gray-900">
                         {{ $label }}
                     </label>
                 @endforeach
@@ -101,7 +101,7 @@ new class extends Component
             <textarea wire:model="bio" id="bio" rows="3" maxlength="500"
                 aria-describedby="bio-error" aria-invalid="{{ $errors->has('bio') ? 'true' : 'false' }}"
                 placeholder="e.g. Training for my first powerlifting meet."
-                class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 dark:border-gray-700 dark:bg-gray-900 dark:text-gray-300"></textarea>
+                class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-emerald-600 focus:ring-emerald-600 dark:border-gray-700 dark:bg-gray-900 dark:text-gray-300"></textarea>
             <x-input-error id="bio-error" class="mt-2" :messages="$errors->get('bio')" />
         </div>
 
