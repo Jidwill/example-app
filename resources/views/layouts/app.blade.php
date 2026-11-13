@@ -5,7 +5,8 @@
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <meta name="csrf-token" content="{{ csrf_token() }}">
 
-        <title>{{ config('app.name', 'Laravel') }}</title>
+        {{-- each page can set its own title (WCAG 2.4.2), e.g. <x-slot name="title">Recipes</x-slot> --}}
+        <title>{{ isset($title) ? $title.' - ' : '' }}{{ config('app.name', 'MacroMeals') }}</title>
 
         <!-- Fonts -->
         <link rel="preconnect" href="https://fonts.bunny.net">
@@ -15,9 +16,15 @@
         @vite(['resources/css/app.css', 'resources/js/app.js'])
     </head>
     <body class="font-sans antialiased">
+        {{-- lets keyboard users jump past the nav (WCAG 2.4.1). Hidden until it gets focus --}}
+        <a href="#main" class="sr-only focus:not-sr-only focus:fixed focus:left-4 focus:top-4 focus:z-50 focus:rounded focus:bg-white focus:px-4 focus:py-2 focus:text-gray-900 focus:shadow focus:outline-none focus:ring-2 focus:ring-indigo-500">Skip to main content</a>
+
         <div class="min-h-screen bg-gray-100 dark:bg-gray-900">
             <livewire:layout.navigation />
 
+            <!-- Everything below the nav is the main content, so "Skip to main content" lands on the
+                 page heading, and the flash and error messages are included for screen reader users -->
+            <main id="main" tabindex="-1" class="focus:outline-none">
             <!-- Page Heading -->
             @if (isset($header))
                 <header class="bg-white dark:bg-gray-800 shadow">
@@ -49,8 +56,6 @@
                 </div>
             @endif
 
-            <!-- Page Content -->
-            <main>
                 {{ $slot }}
             </main>
         </div>

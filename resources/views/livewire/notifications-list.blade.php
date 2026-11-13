@@ -59,9 +59,9 @@ new class extends Component
 
 <div class="rounded-lg bg-white p-6 shadow-sm dark:bg-gray-800">
     <div class="flex flex-wrap items-center justify-between gap-4">
-        <h3 class="text-lg font-semibold text-gray-900 dark:text-gray-100">
+        <h2 class="text-lg font-semibold text-gray-900 dark:text-gray-100">
             {{ $this->notifications->total() }} {{ Str::plural('notification', $this->notifications->total()) }}
-        </h3>
+        </h2>
 
         @if (Auth::user()->unreadNotifications()->exists())
             <x-secondary-button wire:click="markAllAsRead">Mark all as read</x-secondary-button>

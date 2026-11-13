@@ -1,10 +1,12 @@
 <x-app-layout>
+    <x-slot name="title">{{ $user->name }}</x-slot>
+
     <x-slot name="header">
         <div class="flex flex-wrap items-center justify-between gap-4">
             <div>
-                <h2 class="font-semibold text-xl text-gray-800 dark:text-gray-200 leading-tight">
+                <h1 class="font-semibold text-xl text-gray-800 dark:text-gray-200 leading-tight">
                     {{ $user->name }}<x-role-badge :user="$user" />
-                </h2>
+                </h1>
                 <p class="mt-1 text-sm text-gray-600 dark:text-gray-400">
                     Joined {{ $user->created_at->format('F Y') }}
                     · {{ $user->recipes_count }} {{ Str::plural('recipe', $user->recipes_count) }}
@@ -23,7 +25,7 @@
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-8">
             {{-- profile (one to one with users) - older accounts might not have one --}}
             <section class="rounded-lg bg-white p-6 shadow-sm dark:bg-gray-800" aria-labelledby="profile-heading">
-                <h3 id="profile-heading" class="text-lg font-semibold text-gray-900 dark:text-gray-100">Training goal</h3>
+                <h2 id="profile-heading" class="text-lg font-semibold text-gray-900 dark:text-gray-100">Training goal</h2>
 
                 @if ($user->profile)
                     <dl class="mt-4 grid gap-4 sm:grid-cols-3">
@@ -50,16 +52,16 @@
             </section>
 
             <section id="recipes" aria-labelledby="recipes-heading">
-                <h3 id="recipes-heading" class="text-lg font-semibold text-gray-900 dark:text-gray-100">
+                <h2 id="recipes-heading" class="text-lg font-semibold text-gray-900 dark:text-gray-100">
                     Recipes ({{ $recipes->total() }})
-                </h3>
+                </h2>
 
                 @if ($recipes->isEmpty())
                     <p class="mt-2 text-gray-600 dark:text-gray-400">No recipes posted yet.</p>
                 @else
                     <div class="mt-4 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
                         @foreach ($recipes as $recipe)
-                            <x-recipe-card :recipe="$recipe" :show-author="false" />
+                            <x-recipe-card :recipe="$recipe" :show-author="false" :heading-level="3" />
                         @endforeach
                     </div>
 
@@ -70,15 +72,15 @@
             </section>
 
             <section id="comments" class="rounded-lg bg-white p-6 shadow-sm dark:bg-gray-800" aria-labelledby="user-comments-heading">
-                <h3 id="user-comments-heading" class="text-lg font-semibold text-gray-900 dark:text-gray-100">
+                <h2 id="user-comments-heading" class="text-lg font-semibold text-gray-900 dark:text-gray-100">
                     Comments ({{ $comments->total() }})
-                </h3>
+                </h2>
 
                 @forelse ($comments as $comment)
                     <article class="mt-4 border-t border-gray-200 pt-4 dark:border-gray-700">
                         <p class="text-sm text-gray-600 dark:text-gray-400">
                             On
-                            <a href="{{ route('recipes.show', $comment->recipe) }}" class="font-medium text-indigo-700 hover:underline focus:outline-none focus:ring-2 focus:ring-indigo-500 rounded dark:text-indigo-300">{{ $comment->recipe->title }}</a>
+                            <a href="{{ route('recipes.show', $comment->recipe) }}" class="font-medium text-indigo-700 underline hover:no-underline focus:outline-none focus:ring-2 focus:ring-indigo-500 rounded dark:text-indigo-300">{{ $comment->recipe->title }}</a>
                             · {{ $comment->created_at->diffForHumans() }}
                         </p>
                         <p class="mt-1 whitespace-pre-line text-gray-800 dark:text-gray-200">{{ $comment->body }}</p>

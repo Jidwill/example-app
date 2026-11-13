@@ -112,9 +112,9 @@ new class extends Component
 }; ?>
 
 <section class="rounded-lg bg-white p-6 shadow-sm dark:bg-gray-800" aria-labelledby="comments-heading">
-    <h3 id="comments-heading" class="text-lg font-semibold text-gray-900 dark:text-gray-100">
+    <h2 id="comments-heading" class="text-lg font-semibold text-gray-900 dark:text-gray-100">
         Comments ({{ $this->comments->count() }})
-    </h3>
+    </h2>
 
     {{-- screen readers announce this when it changes, e.g. "Comment posted." --}}
     <p role="status" class="sr-only">{{ $status }}</p>

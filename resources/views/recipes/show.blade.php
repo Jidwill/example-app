@@ -1,8 +1,10 @@
 <x-app-layout>
+    <x-slot name="title">{{ $recipe->title }}</x-slot>
+
     <x-slot name="header">
-        <h2 class="font-semibold text-xl text-gray-800 dark:text-gray-200 leading-tight">
+        <h1 class="font-semibold text-xl text-gray-800 dark:text-gray-200 leading-tight">
             {{ $recipe->title }}
-        </h2>
+        </h1>
         <p class="mt-1 text-sm text-gray-600 dark:text-gray-400">
             Posted by <x-user-link :user="$recipe->user" /> · {{ $recipe->created_at->diffForHumans() }}
         </p>
@@ -83,7 +85,7 @@
 
             <div class="grid gap-6 md:grid-cols-2">
                 <section class="rounded-lg bg-white p-6 shadow-sm dark:bg-gray-800">
-                    <h3 class="text-lg font-semibold text-gray-900 dark:text-gray-100">Ingredients</h3>
+                    <h2 class="text-lg font-semibold text-gray-900 dark:text-gray-100">Ingredients</h2>
                     {{-- ingredients and method are saved one per line, so split them into list items --}}
                     <ul class="mt-3 list-disc ps-5 space-y-1 text-gray-800 dark:text-gray-200">
                         @foreach (preg_split('/\R/', $recipe->ingredients, -1, PREG_SPLIT_NO_EMPTY) as $ingredient)
@@ -93,7 +95,7 @@
                 </section>
 
                 <section class="rounded-lg bg-white p-6 shadow-sm dark:bg-gray-800">
-                    <h3 class="text-lg font-semibold text-gray-900 dark:text-gray-100">Method</h3>
+                    <h2 class="text-lg font-semibold text-gray-900 dark:text-gray-100">Method</h2>
                     <ol class="mt-3 list-decimal ps-5 space-y-2 text-gray-800 dark:text-gray-200">
                         @foreach (preg_split('/\R/', $recipe->method, -1, PREG_SPLIT_NO_EMPTY) as $step)
                             <li>{{ $step }}</li>

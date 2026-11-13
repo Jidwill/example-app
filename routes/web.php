@@ -1,12 +1,17 @@
 <?php
 
+use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\RecipeController;
 use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
 
-Route::view('/', 'welcome');
+// the landing page for guests - anyone already logged in goes straight to their dashboard
+Route::get('/', function () {
+    return auth()->check() ? redirect()->route('dashboard') : view('welcome');
+})->name('home');
 
-Route::view('dashboard', 'dashboard')
+// the logged-in home page (Breeze sends people here after logging in)
+Route::get('dashboard', DashboardController::class)
     ->middleware(['auth', 'verified'])
     ->name('dashboard');
 
@@ -30,6 +35,12 @@ Route::get('users/{user}', [UserController::class, 'show'])
 Route::view('notifications', 'notifications.index')
     ->middleware('auth')
     ->name('notifications.index');
+
+// admin page for roles and tags - the can: middleware checks the assign-roles gate
+// (admins only) before the page loads, so members and coaches get a 403
+Route::view('admin', 'admin.index')
+    ->middleware(['auth', 'can:assign-roles'])
+    ->name('admin');
 
 // coaches and admins can hide a recipe (checked in RecipePolicy@hide)
 Route::patch('recipes/{recipe}/hide', [RecipeController::class, 'toggleHidden'])

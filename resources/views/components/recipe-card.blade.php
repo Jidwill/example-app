@@ -1,8 +1,10 @@
-@props(['recipe', 'showAuthor' => true])
+@props(['recipe', 'showAuthor' => true, 'headingLevel' => 2])
 
 {{--
     One recipe card, used on the recipes page and on user pages.
     Expects the recipe to have user and tags loaded, plus comments_count and likes_count (withCount).
+    headingLevel keeps the page's headings in order: 2 when the cards sit straight under the page's h1,
+    3 when they're inside a section with its own h2.
 --}}
 <article class="flex flex-col overflow-hidden rounded-lg bg-white shadow-sm dark:bg-gray-800">
     {{-- photo, or a plain block so cards without one still line up.
@@ -22,11 +24,11 @@
         @if ($recipe->is_hidden)
             <p class="mb-2 self-start rounded bg-gray-800 px-2 py-0.5 text-xs font-semibold uppercase tracking-wide text-white">Hidden</p>
         @endif
-        <h3 class="text-lg font-semibold text-gray-900 dark:text-gray-100">
+        <h{{ $headingLevel }} class="text-lg font-semibold text-gray-900 dark:text-gray-100">
             <a href="{{ route('recipes.show', $recipe) }}" class="hover:underline focus:outline-none focus:ring-2 focus:ring-indigo-500 rounded">
                 {{ $recipe->title }}
             </a>
-        </h3>
+        </h{{ $headingLevel }}>
 
         <p class="mt-1 text-sm text-gray-600 dark:text-gray-400">
             {{-- no need to say who posted it on that person's own page --}}

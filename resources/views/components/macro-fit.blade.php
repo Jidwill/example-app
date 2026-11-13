@@ -26,12 +26,12 @@
     @endif
 @else
     <section {{ $attributes->merge(['class' => 'rounded-lg bg-white p-6 shadow-sm dark:bg-gray-800']) }} aria-labelledby="fit-heading">
-        <h3 id="fit-heading" class="text-lg font-semibold text-gray-900 dark:text-gray-100">How one serving fits your day</h3>
+        <h2 id="fit-heading" class="text-lg font-semibold text-gray-900 dark:text-gray-100">How one serving fits your day</h2>
 
         @if ($profile)
             <p class="mt-1 text-sm text-gray-600 dark:text-gray-400">
                 Based on your {{ $profile->goal }} targets.
-                <a href="{{ route('profile') }}" class="text-indigo-700 hover:underline dark:text-indigo-300">Change them</a>
+                <a href="{{ route('profile') }}" class="text-indigo-700 underline hover:no-underline dark:text-indigo-300">Change them</a>
             </p>
 
             <div class="mt-4 space-y-4">
@@ -50,7 +50,7 @@
             </div>
         @else
             <p class="mt-2 text-sm text-gray-600 dark:text-gray-400">
-                <a href="{{ route('profile') }}" class="text-indigo-700 hover:underline dark:text-indigo-300">Set your daily targets</a>
+                <a href="{{ route('profile') }}" class="text-indigo-700 underline hover:no-underline dark:text-indigo-300">Set your daily targets</a>
                 to see how much of your day this recipe covers.
             </p>
         @endif
