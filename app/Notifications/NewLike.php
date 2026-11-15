@@ -9,7 +9,7 @@ use Illuminate\Notifications\Notification;
 use Illuminate\Support\Str;
 
 /**
- * Sent when someone likes your recipe OR your comment. One class works for both
+ * Sent when someone likes your recipe or comment. One class does both
  * because likes are polymorphic - $like->likeable is either a Recipe or a Comment.
  */
 class NewLike extends Notification
@@ -31,7 +31,7 @@ class NewLike extends Notification
     {
         $likeable = $this->like->likeable;
 
-        // either way we want the recipe, so the notification can link to it
+        // either way I need the recipe so the notification can link to it
         $recipe = $likeable instanceof Recipe ? $likeable : $likeable->recipe;
 
         return [

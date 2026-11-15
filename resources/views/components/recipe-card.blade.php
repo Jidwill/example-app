@@ -1,13 +1,13 @@
 @props(['recipe', 'showAuthor' => true, 'headingLevel' => 2])
 
 {{--
-    One recipe card, used on the recipes page and on user pages.
-    Expects the recipe to have user and tags loaded, plus comments_count and likes_count (withCount).
-    headingLevel keeps the page's headings in order: 2 when the cards sit straight under the page's h1,
-    3 when they're inside a section with its own h2.
+    One recipe card, used on the recipes page, user pages and the dashboard.
+    The recipe needs user and tags loaded, plus comments_count and likes_count (withCount).
+    headingLevel keeps the headings in order: 2 when the cards are straight under the h1,
+    3 when they're in a section that has its own h2.
 --}}
 <article class="flex flex-col overflow-hidden rounded-lg bg-white shadow-sm dark:bg-gray-800">
-    {{-- photo, or a plain block so cards without one still line up.
+    {{-- photo, or a grey block so cards without one still line up.
          The placeholder is decorative so screen readers skip it --}}
     @if ($recipe->image_url)
         <img src="{{ $recipe->image_url }}" alt="Photo of {{ $recipe->title }}" class="h-44 w-full object-cover" loading="lazy">

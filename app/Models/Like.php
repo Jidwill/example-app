@@ -16,8 +16,8 @@ class Like extends Model
     use HasFactory;
 
     /**
-     * Liking someone's recipe or comment notifies them. Unliking removes that
-     * notification again, so liking and unliking over and over doesn't spam them.
+     * Liking someone's recipe or comment notifies them. Unliking deletes the
+     * notification so spamming the like button doesn't spam them.
      */
     protected static function booted(): void
     {

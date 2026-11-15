@@ -9,8 +9,8 @@ use Illuminate\View\View;
 class UserController extends Controller
 {
     /**
-     * A user's public page: their profile, plus all their recipes AND all their comments.
-     * (This is separate from Breeze's /profile page, which is for your own account settings.)
+     * A user's public page with their profile, recipes and comments.
+     * Not the same as Breeze's /profile page, that's for your own account settings.
      */
     public function show(Request $request, User $user): View
     {
@@ -18,8 +18,8 @@ class UserController extends Controller
 
         $user->load('profile')->loadCount('recipes', 'comments');
 
-        // visibleTo() hides recipes the viewer isn't allowed to see (same rule as everywhere else).
-        // Two lists on one page, so each paginator needs its own page name in the URL
+        // visibleTo() hides recipes the viewer can't see (same as everywhere else).
+        // two lists on one page, so each paginator needs its own page name in the URL
         $recipes = $user->recipes()
             ->visibleTo($viewer)
             ->with(['user', 'tags'])
@@ -29,7 +29,7 @@ class UserController extends Controller
             ->withQueryString()
             ->fragment('recipes');
 
-        // only comments on recipes the viewer can see, with the recipe so it can link back to it
+        // only comments on recipes the viewer can see, with the recipe loaded for the link
         $comments = $user->comments()
             ->whereHas('recipe', fn ($query) => $query->visibleTo($viewer))
             ->with('recipe')

@@ -1,6 +1,6 @@
 @props(['recipe'])
 
-{{-- macros per serving - used on the recipe cards and the recipe page so it's only written once --}}
+{{-- macros per serving, used on the cards and the recipe page so I only write it once --}}
 <ul {{ $attributes->merge(['class' => 'flex flex-wrap gap-2 text-xs font-medium']) }} aria-label="Macros per serving">
     <li class="rounded-full bg-amber-100 px-2.5 py-1 text-amber-900 dark:bg-amber-900/50 dark:text-amber-100">{{ $recipe->calories }} kcal</li>
     <li class="rounded-full bg-sky-100 px-2.5 py-1 text-sky-900 dark:bg-sky-900/50 dark:text-sky-100">{{ $recipe->protein }}g protein</li>

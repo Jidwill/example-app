@@ -3,8 +3,8 @@
 namespace App\Http\Requests;
 
 /**
- * Editing uses the same rules as posting a recipe, so this extends StoreRecipeRequest
- * and only changes who's allowed and adds the "remove photo" checkbox.
+ * Editing has the same rules as posting, so this just extends StoreRecipeRequest
+ * and changes who's allowed, plus adds the "remove photo" checkbox.
  */
 class UpdateRecipeRequest extends StoreRecipeRequest
 {

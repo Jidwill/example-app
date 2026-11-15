@@ -14,7 +14,7 @@
 
     <div class="py-8">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-8">
-            {{-- quick summary - each box links to where you'd go next --}}
+            {{-- quick summary, each box links to the relevant page --}}
             <section aria-labelledby="summary-heading">
                 <h2 id="summary-heading" class="sr-only">Your summary</h2>
                 <div class="grid gap-4 sm:grid-cols-3">

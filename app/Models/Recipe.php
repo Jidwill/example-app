@@ -33,8 +33,8 @@ class Recipe extends Model
     use HasFactory;
 
     /**
-     * is_hidden is left out of fillable on purpose - only coaches and admins
-     * should be able to change it, through the hide button.
+     * is_hidden isn't fillable on purpose, only coaches and admins should
+     * change it (with the hide button).
      *
      * @return array<string, string>
      */
@@ -46,21 +46,21 @@ class Recipe extends Model
     }
 
     /**
-     * Clean up when a recipe is deleted. Comments go automatically because of the
-     * foreign key cascade, but likes are polymorphic so the database can't cascade them,
-     * and the image file lives on disk rather than in the database.
+     * Cleans up when a recipe gets deleted. Comments are deleted by the foreign key
+     * cascade, but likes are polymorphic so the database can't do those,
+     * and the photo is a file on disk, not in the database.
      */
     protected static function booted(): void
     {
         static::deleting(function (Recipe $recipe) {
             $recipe->likes()->delete();
 
-            // likes on this recipe's comments, since those comments are about to go too
+            // likes on its comments too, since the comments are about to be deleted
             Like::where('likeable_type', Comment::class)
                 ->whereIn('likeable_id', $recipe->comments()->select('id'))
                 ->delete();
 
-            // notifications about this recipe (comments and likes on it) would link to a 404 otherwise
+            // otherwise notifications about this recipe would link to a 404
             DatabaseNotification::whereJsonContains('data->recipe_id', $recipe->id)->delete();
 
             $recipe->deleteImage();
@@ -69,7 +69,7 @@ class Recipe extends Model
 
     /**
      * Full URL for the recipe photo, or null if there isn't one.
-     * asset() uses the current site address so it works whatever APP_URL is set to.
+     * asset() uses the current site address so it works whatever APP_URL is.
      */
     protected function imageUrl(): Attribute
     {
@@ -89,9 +89,9 @@ class Recipe extends Model
     }
 
     /**
-     * Only the recipes this user is allowed to see. Coaches and admins see everything,
+     * Only recipes this user is allowed to see. Coaches and admins see everything,
      * everyone else sees recipes that aren't hidden plus their own.
-     * Matches RecipePolicy@view so the list and the recipe page agree.
+     * Same rule as RecipePolicy@view so the list and recipe page match.
      */
     public function scopeVisibleTo(Builder $query, User $user): void
     {
@@ -149,8 +149,8 @@ class Recipe extends Model
     }
 
     /**
-     * The same calories sum as above, but as SQL, so the database can filter and sort by it
-     * (calories aren't a column, so the query has to work them out).
+     * Same calories sum as above but in SQL, so the database can filter and sort by it
+     * (calories isn't a column so the query has to work it out).
      */
     public const CALORIES_SQL = '(protein * 4 + carbs * 4 + fat * 9)';
 
@@ -170,14 +170,14 @@ class Recipe extends Model
             $query->where('protein', '>=', (int) $grams);
         });
 
-        // the value is passed as a binding (?) so it can't be used for SQL injection
+        // the ? is a binding so this is safe from SQL injection
         $query->when($filters['max_calories'] ?? null, function (Builder $query, $kcal) {
             $query->whereRaw(self::CALORIES_SQL.' <= ?', [(int) $kcal]);
         });
 
         match ($filters['sort'] ?? 'newest') {
             'protein' => $query->orderByDesc('protein')->latest(),
-            // grams of protein per 100 kcal - the best "lean" recipes first.
+            // grams of protein per 100 kcal, leanest first.
             // NULLIF stops a divide by zero if a recipe somehow has 0 calories
             'lean' => $query->orderByRaw('protein * 100.0 / NULLIF('.self::CALORIES_SQL.', 0) DESC')->latest(),
             default => $query->latest(),

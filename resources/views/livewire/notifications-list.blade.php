@@ -6,8 +6,8 @@ use Livewire\Volt\Component;
 use Livewire\WithPagination;
 
 /*
- * The notifications page: everything that's happened to your recipes and comments,
- * newest first. Marking them as read happens without a page reload.
+ * The notifications page, showing likes and comments on your stuff,
+ * newest first. Marking as read doesn't reload the page.
  */
 new class extends Component
 {
@@ -49,7 +49,7 @@ new class extends Component
     }
 
     /**
-     * Only your own notifications, so nobody can mark someone else's by sending their id.
+     * Only looks in your own notifications so nobody can mark someone else's by sending its id.
      */
     private function findNotification(string $id)
     {

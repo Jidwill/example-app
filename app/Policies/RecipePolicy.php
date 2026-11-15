@@ -15,8 +15,8 @@ use App\Models\User;
 class RecipePolicy
 {
     /**
-     * Runs before every other check. Admins are allowed everything,
-     * returning null means "carry on to the normal check".
+     * Runs before the other checks. Admins can do anything,
+     * returning null means carry on to the normal check.
      */
     public function before(User $user, string $ability): ?bool
     {

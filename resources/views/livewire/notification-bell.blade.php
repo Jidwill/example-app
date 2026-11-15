@@ -6,8 +6,8 @@ use Livewire\Volt\Component;
 
 /*
  * The bell in the nav bar with the number of unread notifications.
- * wire:poll asks the server for the count every 15 seconds (AJAX), so a new
- * like or comment shows up without refreshing the page. It also updates straight
+ * wire:poll checks the count every 15 seconds (AJAX) so new
+ * likes and comments show up without refreshing. It also updates straight
  * away when notifications are marked as read on the notifications page.
  */
 new class extends Component
@@ -35,7 +35,7 @@ new class extends Component
         </svg>
 
         @if ($unread > 0)
-            {{-- the number is for sighted users, the aria-label above already says it --}}
+            {{-- the number is visual only, the aria-label above already says it --}}
             <span aria-hidden="true"
                 class="absolute -right-0.5 -top-0.5 flex h-5 min-w-5 items-center justify-center rounded-full bg-red-600 px-1 text-xs font-semibold text-white">
                 {{ $unread > 9 ? '9+' : $unread }}

@@ -21,9 +21,9 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
-        // RecipePolicy and CommentPolicy are found automatically because they follow
-        // the naming convention (App\Models\Recipe -> App\Policies\RecipePolicy).
-        // These gates are for admin-only actions that aren't about a single model.
+        // Laravel finds RecipePolicy and CommentPolicy by itself because of the naming
+        // (App\Models\Recipe -> App\Policies\RecipePolicy).
+        // These gates are for admin stuff that isn't about one model.
         Gate::define('manage-tags', fn (User $user) => $user->isAdmin());
         Gate::define('assign-roles', fn (User $user) => $user->isAdmin());
     }

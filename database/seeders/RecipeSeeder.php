@@ -20,7 +20,7 @@ class RecipeSeeder extends Seeder
         $tags = Tag::all();
 
         // recycle() picks a random existing user for each recipe
-        // (otherwise the factory would make a new user for every single one)
+        // (otherwise the factory makes a new user for each one)
         $recipes = Recipe::factory()
             ->count(40)
             ->recycle($users)
@@ -42,7 +42,7 @@ class RecipeSeeder extends Seeder
     /**
      * Gives the recipe a photo if there's one for that meal in database/seeders/photos
      * (downloaded with "sail artisan recipes:fetch-photos").
-     * Each recipe gets its own copy, so deleting one recipe can't delete another's photo.
+     * Each recipe gets its own copy so deleting one recipe doesn't delete another's photo.
      */
     private function attachPhoto(Recipe $recipe): void
     {

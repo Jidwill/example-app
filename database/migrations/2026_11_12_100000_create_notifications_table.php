@@ -11,8 +11,8 @@ return new class extends Migration
      */
     public function up(): void
     {
-        // Laravel's standard notifications table (what "artisan make:notifications-table" makes).
-        // notifiable is polymorphic, so it could notify any model, but here it's always a User
+        // Laravel's normal notifications table (from "artisan make:notifications-table").
+        // notifiable is polymorphic so it could be any model, but here it's always a User
         Schema::create('notifications', function (Blueprint $table) {
             $table->uuid('id')->primary();
             $table->string('type');

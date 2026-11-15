@@ -8,9 +8,9 @@ use Livewire\Attributes\Validate;
 use Livewire\Volt\Component;
 
 /*
- * The comments section on a recipe page. Posting, editing and deleting all happen
- * through Livewire (AJAX), so the page never reloads.
- * Permissions come from CommentPolicy, the same as everywhere else:
+ * Comments section on the recipe page. Posting, editing and deleting all go
+ * through Livewire (AJAX) so the page doesn't reload.
+ * Permissions come from CommentPolicy like everywhere else:
  * members manage their own comments, coaches and admins can manage anyone's.
  */
 new class extends Component
@@ -29,8 +29,8 @@ new class extends Component
     public string $status = '';
 
     /**
-     * Comments newest first, with who wrote them. Computed so it's only
-     * queried once per request and refreshes after each action.
+     * Comments newest first with their authors. It's computed so it only
+     * runs the query once per request and refreshes after each action.
      */
     #[Computed]
     public function comments()
@@ -45,7 +45,7 @@ new class extends Component
 
         $validated = $this->validate();
 
-        // only body is fillable, so the user and recipe are set through the relationships
+        // only body is fillable so set the user and recipe through the relationships
         $comment = new Comment(['body' => $validated['body']]);
         $comment->user()->associate(Auth::user());
         $this->recipe->comments()->save($comment);
@@ -102,7 +102,7 @@ new class extends Component
     }
 
     /**
-     * Only look for comments on THIS recipe, so someone can't send another
+     * Only looks at comments on this recipe, so someone can't send another
      * recipe's comment id and edit that instead.
      */
     private function findComment(?int $commentId): Comment

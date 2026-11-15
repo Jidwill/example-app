@@ -6,8 +6,8 @@ use Illuminate\Foundation\Http\FormRequest;
 
 /**
  * Checks the filters on the recipes page (they come from the URL, e.g. ?min_protein=30).
- * If any are invalid the user goes back to the unfiltered list with an error message,
- * instead of the query running with nonsense values.
+ * If one's invalid you go back to the full list with an error
+ * instead of the query running with junk values.
  */
 class FilterRecipesRequest extends FormRequest
 {

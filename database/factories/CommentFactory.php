@@ -19,7 +19,7 @@ class CommentFactory extends Factory
      */
     public function definition(): array
     {
-        // posted in the last month, so always after the recipe it's on.
+        // posted in the last month so it's always after the recipe
         // updated_at matches so seeded comments don't show as "edited"
         $postedAt = fake()->dateTimeBetween('-1 month');
 

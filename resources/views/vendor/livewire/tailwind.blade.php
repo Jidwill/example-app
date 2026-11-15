@@ -1,6 +1,6 @@
-{{-- Copied from the framework so I could fix an accessibility bug: aria-label isn't allowed on a plain <span>
-     (WCAG 4.1.2, flagged by axe), so the disabled Previous/Next now use visually hidden text instead.
-     Also dark:text-gray-600 -> dark:text-gray-300 so the 'Showing 1 to 9 of 40' text passes contrast in dark mode (WCAG 1.4.3) --}}
+{{-- Copied from the framework to fix an accessibility issue axe found: aria-label isn't allowed on a plain <span>
+     so the disabled Previous/Next use sr-only text instead.
+     Also changed dark:text-gray-600 to dark:text-gray-300 because the 'Showing 1 to 9 of 40' text was too low contrast in dark mode --}}
 @php
 if (! isset($scrollTo)) {
     $scrollTo = 'body';

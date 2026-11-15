@@ -6,9 +6,9 @@ use Illuminate\Support\Facades\Auth;
 use Livewire\Volt\Component;
 
 /*
- * One like button that works for recipes AND comments, because likes are polymorphic -
- * $likeable can be any model with a likes() morphMany relationship.
- * Clicking it sends an AJAX request (Livewire) instead of reloading the page.
+ * One like button for both recipes and comments, because likes are polymorphic.
+ * $likeable can be any model with a likes() morphMany.
+ * Clicking it does an AJAX request (Livewire) so the page doesn't reload.
  */
 new class extends Component
 {
@@ -19,7 +19,7 @@ new class extends Component
     public bool $liked = false;
 
     /**
-     * Work out the count and whether I've liked it once when the button first loads.
+     * Gets the count and whether you've liked it when the button first loads.
      */
     public function mount(Model $likeable): void
     {
@@ -50,13 +50,13 @@ new class extends Component
         if ($existing) {
             $existing->delete();
         } else {
-            // user_id isn't fillable on Like, so set the relationship rather than mass assigning
+            // user_id isn't fillable on Like so go through the relationship
             $like = new Like;
             $like->user()->associate(Auth::user());
             $this->likeable->likes()->save($like);
         }
 
-        // recount rather than +1/-1 so it's right even if someone else liked it meanwhile
+        // recount instead of +1/-1 in case someone else liked it at the same time
         $this->count = $this->likeable->likes()->count();
         $this->liked = ! $existing;
     }

@@ -16,7 +16,7 @@ use App\Models\User;
 class CommentPolicy
 {
     /**
-     * Admins are allowed everything, null means "carry on to the normal check".
+     * Admins can do anything. Returning null means carry on to the normal check.
      */
     public function before(User $user, string $ability): ?bool
     {

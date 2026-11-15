@@ -6,12 +6,12 @@ use App\Models\User;
 use Illuminate\Auth\Events\Registered;
 
 /**
- * Gives every newly registered user a profile with sensible starting targets,
- * which they can change on the Profile page.
+ * Gives new users a profile with some default targets
+ * that they can change on the Profile page.
  *
- * Laravel finds this listener automatically because handle() type-hints the
- * Registered event (Breeze fires it when someone signs up). I used the event
- * instead of a model event so the seeders, which make their own profiles, aren't affected.
+ * Laravel picks this up automatically because handle() type-hints the
+ * Registered event (Breeze fires it on sign up). I used this event instead
+ * of a model event so it doesn't mess with the seeders, which make their own profiles.
  */
 class CreateProfileForNewUser
 {
@@ -21,7 +21,7 @@ class CreateProfileForNewUser
             return;
         }
 
-        // firstOrCreate so it can never make a second profile (user_id is unique)
+        // firstOrCreate so it can't make a second profile (user_id is unique anyway)
         $event->user->profile()->firstOrCreate([], [
             'goal' => 'maintain',
             'daily_calories' => 2500,

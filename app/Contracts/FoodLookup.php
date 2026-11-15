@@ -8,10 +8,10 @@ use App\Services\FoodLookup\FoodLookupException;
 /**
  * Anything that can look up a food and give back its macros per 100g.
  *
- * The rest of the app only ever asks the service container for a FoodLookup,
- * never for a specific class, so the implementation can be swapped (the real
- * Open Food Facts API, or the built-in list for offline use and tests) by changing
- * one binding in FoodLookupServiceProvider.
+ * The rest of the app only asks the container for a FoodLookup, never a specific
+ * class. That way I can swap between the real Open Food Facts API and the
+ * built-in list (for offline use and tests) just by changing the binding in
+ * FoodLookupServiceProvider.
  */
 interface FoodLookup
 {
@@ -25,7 +25,7 @@ interface FoodLookup
     public function search(string $query, int $limit = 6): array;
 
     /**
-     * Where the results come from, shown under the search results.
+     * Name of where the results come from (shown under the results).
      */
     public function sourceName(): string;
 }

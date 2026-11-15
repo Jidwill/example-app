@@ -10,11 +10,11 @@ use Illuminate\Http\Client\RequestException;
 use Illuminate\Support\Str;
 
 /**
- * Looks foods up in Open Food Facts (https://world.openfoodfacts.org), a free open database.
+ * Searches Open Food Facts (https://world.openfoodfacts.org), a free food database.
  *
- * Everything this class needs is passed into the constructor (dependency injection) by
- * FoodLookupServiceProvider, rather than it creating things itself. That means tests can
- * give it a fake HTTP client, and the URL, timeout etc. come from config/services.php.
+ * Everything it needs gets passed into the constructor by FoodLookupServiceProvider
+ * (dependency injection) instead of the class making things itself. So in tests I can
+ * use a fake HTTP client, and the URL, timeout etc. come from config/services.php.
  */
 class OpenFoodFactsFoodLookup implements FoodLookup
 {
@@ -35,8 +35,8 @@ class OpenFoodFactsFoodLookup implements FoodLookup
             return [];
         }
 
-        // Open Food Facts only allows 10 searches a minute, so remember results for a day.
-        // If the API call fails it throws before anything is cached, so errors aren't remembered
+        // Open Food Facts only allows 10 searches a minute so cache results for a day.
+        // if the call fails it throws before caching, so errors don't get cached
         $results = $this->cache->remember(
             'food-lookup:'.md5(Str::lower($query)),
             now()->addMinutes($this->cacheMinutes),
@@ -63,7 +63,7 @@ class OpenFoodFactsFoodLookup implements FoodLookup
                 ->withUserAgent($this->userAgent) // Open Food Facts asks apps to say who they are
                 ->acceptJson()
                 ->timeout($this->timeoutSeconds)
-                // try again once if their server has a hiccup, but not for things like 429 (too many requests)
+                // retry once on a server error, but not on a 429 (too many requests)
                 ->retry([500], when: fn ($e) => $e instanceof RequestException && $e->response->serverError(), throw: false)
                 ->get(rtrim($this->baseUrl, '/').'/cgi/search.pl', [
                     'search_terms' => $query,
@@ -71,7 +71,7 @@ class OpenFoodFactsFoodLookup implements FoodLookup
                     'action' => 'process',
                     'json' => 1,
                     'page_size' => 20,
-                    'fields' => 'product_name,brands,nutriments', // only what we need, so it's quicker
+                    'fields' => 'product_name,brands,nutriments', // only the fields I use, so it's quicker
                 ]);
         } catch (ConnectionException $e) {
             throw new FoodLookupException("Couldn't reach Open Food Facts (it took too long or the connection failed). Try again in a moment.", previous: $e);

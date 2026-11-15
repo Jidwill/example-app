@@ -6,10 +6,10 @@ use App\Contracts\FoodLookup;
 use Illuminate\Support\Str;
 
 /**
- * A second FoodLookup that uses a small built-in list instead of the internet.
- * Used when FOOD_LOOKUP_DRIVER=local (e.g. no wifi, or the API is down on demo day) and in tests.
- * Because it implements the same interface, nothing else in the app has to change to use it.
- * Values are rough per-100g figures for common gym-food ingredients.
+ * Another FoodLookup that uses a small built-in list instead of the API.
+ * Used when FOOD_LOOKUP_DRIVER=local (no wifi, API down when recording the demo) and in tests.
+ * It implements the same interface so nothing else has to change to use it.
+ * The numbers are rough per 100g values for common gym foods.
  */
 class LocalFoodLookup implements FoodLookup
 {

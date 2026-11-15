@@ -11,12 +11,12 @@ use Illuminate\Support\Sleep;
 use Illuminate\Support\Str;
 
 /**
- * One-off helper that downloads a freely licensed photo for each of the 18 seeded meals
- * from Wikimedia Commons, so the seeded recipes have pictures.
+ * Downloads a free photo from Wikimedia Commons for each of the 18 seeded meals,
+ * so the seeded recipes have pictures. Only really needs running once.
  *
- * Photos are saved in database/seeders/photos and committed to git, so seeding
- * doesn't need the internet afterwards. CREDITS.md in the same folder lists the
- * photographer and licence for each one (the CC licences require that).
+ * The photos get saved in database/seeders/photos and committed, so seeding
+ * doesn't need the internet. CREDITS.md in that folder says who took each one
+ * and the licence, because the CC licences say you have to credit them.
  *
  * Usage:
  *   sail artisan recipes:fetch-photos                         download any that are missing
@@ -38,7 +38,7 @@ class FetchRecipePhotos extends Command
 
     /**
      * The meal titles from RecipeFactory, with what to search for.
-     * Some searches are more general than the title because that finds better photos.
+     * Some searches are vaguer than the title because they found better photos.
      */
     private const SEARCHES = [
         'Chicken rice bowl' => 'teriyaki chicken rice',
@@ -101,8 +101,8 @@ class FetchRecipePhotos extends Command
                 continue;
             }
 
-            // search Commons for image files and get each one's 1200px version and licence info.
-            // If the server has a hiccup (5xx or timeout) try again after 3s, 8s, then 15s
+            // search Commons for images and get the 1200px version plus the licence info.
+            // if it times out or gives a 5xx error, try again after 3s, 8s, then 15s
             $response = Http::withUserAgent(self::USER_AGENT)
                 ->timeout(30)
                 ->retry([3000, 8000, 15000], when: fn ($exception) => $this->worthRetrying($exception), throw: false)
@@ -153,7 +153,7 @@ class FetchRecipePhotos extends Command
                 $this->warn("  no usable photo found for {$title}");
             }
 
-            Sleep::for(1)->seconds(); // be polite to the free API
+            Sleep::for(1)->seconds(); // don't spam the free API
         }
 
         ksort($credits);
@@ -168,7 +168,7 @@ class FetchRecipePhotos extends Command
     }
 
     /**
-     * Only real photos (JPEG) that are wider than they are tall and big enough to look good.
+     * Only JPEG photos that are landscape and big enough to look ok.
      */
     private function isLandscapePhoto(array $info): bool
     {
@@ -178,8 +178,8 @@ class FetchRecipePhotos extends Command
     }
 
     /**
-     * Pulls the photo name, photographer and licence out of the Commons metadata.
-     * The Artist field is HTML (usually a link), so the tags get stripped.
+     * Gets the photo name, photographer and licence from the Commons metadata.
+     * The Artist field is usually an HTML link so I strip the tags.
      */
     private function creditFor(string $recipe, array $info): array
     {
@@ -197,8 +197,8 @@ class FetchRecipePhotos extends Command
     }
 
     /**
-     * Only retry when the server is having a moment (timeouts and 5xx errors),
-     * not for things that won't fix themselves, like a 429 rate limit.
+     * Only retry on timeouts and 5xx errors. Something like a 429 (rate limited)
+     * won't fix itself by retrying.
      */
     private function worthRetrying(\Throwable $exception): bool
     {
@@ -210,8 +210,8 @@ class FetchRecipePhotos extends Command
     }
 
     /**
-     * Downloads one image, checks it really is a decent sized picture,
-     * then makes sure it's no more than 1200px wide so the repo doesn't get huge.
+     * Downloads one image, checks it's actually an image and big enough,
+     * then shrinks it to 1200px wide max so the repo doesn't get massive.
      */
     private function savePhoto(string $url, string $path): bool
     {

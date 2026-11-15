@@ -81,8 +81,8 @@ new class extends Component
     {
         Gate::authorize('manage-tags');
 
-        // the recipe_tag rows go too because of cascadeOnDelete on the pivot table.
-        // The recipes themselves are untouched, they just lose this tag
+        // the recipe_tag rows get deleted too (cascadeOnDelete on the pivot table).
+        // the recipes stay, they just lose this tag
         $tag = Tag::findOrFail($tagId);
         $tag->delete();
 

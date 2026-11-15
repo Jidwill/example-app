@@ -23,8 +23,8 @@ class NewComment extends Notification
     }
 
     /**
-     * What gets saved in the data column. Names and titles are copied in so the
-     * notification still reads properly even if they change later.
+     * What gets saved in the data column. I copy the names and title in so the
+     * notification still makes sense if they change later.
      *
      * @return array<string, mixed>
      */

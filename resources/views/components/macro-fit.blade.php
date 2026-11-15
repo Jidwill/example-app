@@ -1,9 +1,9 @@
 @props(['recipe', 'compact' => false])
 
 {{--
-    How much of the viewer's daily targets one serving covers, using the goal and targets
-    from their profile (Profile page > Training goal). auth()->user()->profile is only
-    loaded once per page, so lots of cards don't mean lots of queries.
+    How much of your daily targets one serving covers, using the targets
+    from your profile (Profile page > Training goal). auth()->user()->profile only
+    loads once per page, so lots of cards doesn't mean lots of queries.
 --}}
 @php
     $profile = auth()->user()?->profile;
@@ -37,7 +37,7 @@
             <div class="mt-4 space-y-4">
                 @foreach ($fits as $fit)
                     <div>
-                        {{-- the words say everything; the bar underneath is just a picture of it --}}
+                        {{-- the text has all the info, the bar is just for looks --}}
                         <p class="flex flex-wrap justify-between gap-2 text-sm text-gray-800 dark:text-gray-200">
                             <span class="font-medium">{{ $fit['label'] }}</span>
                             <span>{{ $fit['amount'] }}{{ $fit['unit'] }} is {{ $fit['percent'] }}% of your daily {{ number_format($fit['target']) }}{{ $fit['unit'] }}</span>

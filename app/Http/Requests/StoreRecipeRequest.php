@@ -8,7 +8,7 @@ use Illuminate\Foundation\Http\FormRequest;
 class StoreRecipeRequest extends FormRequest
 {
     /**
-     * Checks RecipePolicy@create, so the rule for who can post lives in one place.
+     * Uses RecipePolicy@create so the rule for who can post is only in one place.
      */
     public function authorize(): bool
     {
@@ -33,7 +33,7 @@ class StoreRecipeRequest extends FormRequest
             'protein' => ['required', 'integer', 'min:0', 'max:500'],
             'carbs' => ['required', 'integer', 'min:0', 'max:500'],
             'fat' => ['required', 'integer', 'min:0', 'max:500'],
-            // tags are optional, but any that are sent have to actually exist
+            // tags are optional but they have to actually exist
             'tags' => ['nullable', 'array'],
             'tags.*' => ['integer', 'distinct', 'exists:tags,id'],
             // optional photo, up to 2MB

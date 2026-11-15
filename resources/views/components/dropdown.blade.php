@@ -13,7 +13,7 @@ $width = match ($width) {
 };
 @endphp
 
-{{-- Escape closes the menu and puts focus back on the button, so keyboard users don't get stuck (added for WCAG 2.1.1) --}}
+{{-- Escape closes the menu and puts focus back on the button so keyboard users don't get stuck --}}
 <div class="relative" x-data="{ open: false }" @click.outside="open = false" @close.stop="open = false"
      @keydown.escape.window="if (open) { open = false; $el.querySelector('button')?.focus() }">
     <div @click="open = ! open">

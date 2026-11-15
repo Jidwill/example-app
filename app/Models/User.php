@@ -12,7 +12,7 @@ use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 
-// role is left out of fillable on purpose so nobody can sneak role=admin
+// role isn't fillable on purpose so nobody can sneak role=admin
 // into the register form (mass assignment)
 #[Fillable(['name', 'email', 'password'])]
 #[Hidden(['password', 'remember_token'])]
@@ -35,9 +35,9 @@ class User extends Authenticatable
     }
 
     /**
-     * When someone deletes their account (Breeze profile page), delete their recipes and
-     * comments one by one so the Recipe and Comment clean up above runs (likes and photos).
-     * The database cascade alone would skip those model events.
+     * When someone deletes their account, delete their recipes and comments one
+     * at a time so the Recipe and Comment clean up code runs (likes and photos).
+     * Just relying on the database cascade would skip those model events.
      */
     protected static function booted(): void
     {

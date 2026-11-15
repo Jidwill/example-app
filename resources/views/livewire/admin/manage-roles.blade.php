@@ -8,9 +8,9 @@ use Livewire\Volt\Component;
 use Livewire\WithPagination;
 
 /*
- * Admins change people's roles (member, coach or admin).
- * Uses the assign-roles gate from AppServiceProvider. role isn't fillable on
- * User (so nobody can sneak role=admin into a form), so it's set directly here.
+ * Lets admins change people's roles (member, coach or admin).
+ * Uses the assign-roles gate from AppServiceProvider. role isn't fillable
+ * (so nobody can sneak role=admin into a form) so I set it directly here.
  */
 new class extends Component
 {
@@ -76,7 +76,7 @@ new class extends Component
         <x-text-input id="user-search" type="search" wire:model.live.debounce.400ms="search" class="mt-1 block w-full" />
     </div>
 
-    {{-- confirms the change for everyone, including screen reader users --}}
+    {{-- says what changed, screen readers read it out too --}}
     <p role="status" class="mt-3 text-sm font-medium text-green-700 dark:text-green-400">{{ $status }}</p>
     <x-input-error :messages="$errors->get('role')" class="mt-2" />
 

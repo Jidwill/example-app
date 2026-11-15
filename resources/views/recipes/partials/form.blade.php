@@ -1,6 +1,6 @@
 {{--
     The recipe form fields, shared by create.blade.php and edit.blade.php.
-    $recipe is null when creating, so old() falls back to the recipe's current values when editing.
+    $recipe is null when creating. When editing, old() falls back to the recipe's current values.
 --}}
 @php
     $recipe ??= null;
@@ -77,8 +77,8 @@
 </fieldset>
 
 {{-- "Don't know the macros?" helper. The food-lookup component sends totals for the whole recipe
-     as a browser event, and this Alpine code divides them by the servings box and fills in the
-     protein, carbs and fat boxes above. It also adds the ingredients to the ingredients list --}}
+     as a browser event, then this Alpine code divides them by the servings and fills in the
+     protein, carbs and fat boxes. It also adds the ingredients to the list --}}
 <details x-data="{
         message: '',
         fill(totals) {

@@ -18,12 +18,12 @@ class Comment extends Model
     use HasFactory;
 
     /**
-     * When a comment is posted, let the recipe's owner know (unless they commented themselves).
-     * When it's deleted, its likes go too (polymorphic, so the database can't cascade them),
-     * along with any notifications about it so nobody gets a link to a comment that's gone.
-     * whereJsonContains rather than where('data->comment_id', ...) because on MySQL the plain
-     * version errors on notifications where comment_id is null (e.g. recipe likes).
-     * The seeders turn model events off, so seeding doesn't send hundreds of these.
+     * When a comment is posted, notify the recipe owner (unless it's their own comment).
+     * When it's deleted, delete its likes too (they're polymorphic so the database can't cascade them)
+     * and any notifications about it, so nobody gets a link to a comment that's gone.
+     * I used whereJsonContains because where('data->comment_id', ...) threw an error on MySQL
+     * for notifications where comment_id is null (like recipe likes).
+     * The seeders turn model events off so seeding doesn't make hundreds of these.
      */
     protected static function booted(): void
     {
@@ -58,7 +58,7 @@ class Comment extends Model
     }
 
     /**
-     * Likes on this comment. These go in the same likes table as recipe likes.
+     * Likes on this comment (same likes table as recipe likes).
      */
     public function likes(): MorphMany
     {

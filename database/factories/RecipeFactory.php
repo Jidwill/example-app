@@ -13,8 +13,8 @@ class RecipeFactory extends Factory
 {
     /**
      * Real meals with rough macros per serving (protein, carbs, fat in grams).
-     * The factory picks one at random and tweaks the macros a bit so
-     * the seeded recipes don't all look identical.
+     * It picks one at random and changes the macros a bit so
+     * the seeded recipes aren't all identical.
      */
     protected static array $meals = [
         [
@@ -352,7 +352,7 @@ class RecipeFactory extends Factory
     }
 
     /**
-     * Nudges a number up or down by up to 15% so the same meal
+     * Moves a number up or down by up to 15% so the same meal
      * doesn't always have identical macros.
      */
     private function vary(int $grams): int

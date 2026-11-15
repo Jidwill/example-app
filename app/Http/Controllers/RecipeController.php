@@ -14,17 +14,17 @@ use Illuminate\View\View;
 class RecipeController extends Controller
 {
     /**
-     * Show all the recipes as cards, 9 per page, with optional filters
-     * (tag, minimum protein, maximum calories) and sorting.
+     * Lists the recipes as cards, 9 per page, with optional filters
+     * (tag, min protein, max calories) and sorting.
      */
     public function index(FilterRecipesRequest $request): View
     {
         $filters = $request->validated();
 
-        // eager load the user and tags so each card doesn't run its own queries (N+1),
-        // and withCount adds comments_count and likes_count without loading every row.
-        // visibleTo() leaves out hidden recipes unless you're allowed to see them,
-        // and filter() is the scope in the Recipe model that applies the filters
+        // eager load user and tags so it's not doing extra queries for every card (N+1).
+        // withCount gives comments_count and likes_count without loading them all.
+        // visibleTo() leaves out hidden recipes unless you're allowed to see them
+        // and filter() is my scope in the Recipe model
         $recipes = Recipe::visibleTo($request->user())
             ->filter($filters)
             ->with(['user', 'tags'])
@@ -51,12 +51,12 @@ class RecipeController extends Controller
     }
 
     /**
-     * Save a new recipe. Validation and the permission check happen in
-     * StoreRecipeRequest before this method even runs.
+     * Saves a new recipe. StoreRecipeRequest does the validation and
+     * permission check before this runs.
      */
     public function store(StoreRecipeRequest $request): RedirectResponse
     {
-        // only validated fields, and not tags or the file itself
+        // just the validated fields, minus the tags and the photo
         $data = $request->safe()->except(['tags', 'image']);
 
         if ($request->hasFile('image')) {
@@ -64,7 +64,7 @@ class RecipeController extends Controller
             $data['image_path'] = $request->file('image')->store('recipes', 'public');
         }
 
-        // creating it through the user's recipes() relationship fills in user_id for me
+        // going through $user->recipes() fills in user_id automatically
         $recipe = $request->user()->recipes()->create($data);
 
         $recipe->tags()->sync($request->validated('tags', []));
@@ -79,10 +79,10 @@ class RecipeController extends Controller
      */
     public function show(Recipe $recipe): View
     {
-        // RecipePolicy@view - a hidden recipe gives a 403 unless it's yours or you're a coach/admin
+        // RecipePolicy@view - hidden recipes give a 403 unless it's yours or you're a coach/admin
         Gate::authorize('view', $recipe);
 
-        // the comments and like buttons are Livewire components that load their own data
+        // comments and likes are Livewire components so they load their own data
         $recipe->load(['user', 'tags']);
 
         return view('recipes.show', ['recipe' => $recipe]);
@@ -102,7 +102,7 @@ class RecipeController extends Controller
     }
 
     /**
-     * Save changes to a recipe. UpdateRecipeRequest checks permission and validates.
+     * Saves changes to a recipe. UpdateRecipeRequest checks permission and validates.
      */
     public function update(UpdateRecipeRequest $request, Recipe $recipe): RedirectResponse
     {
@@ -127,8 +127,8 @@ class RecipeController extends Controller
     }
 
     /**
-     * Delete a recipe (owner or admin only). The Recipe model cleans up
-     * its likes and photo when it's deleted.
+     * Deletes a recipe (owner or admin only). The Recipe model deletes
+     * its likes and photo too.
      */
     public function destroy(Recipe $recipe): RedirectResponse
     {
@@ -148,7 +148,7 @@ class RecipeController extends Controller
     {
         Gate::authorize('hide', $recipe);
 
-        // set directly rather than mass assigned, since is_hidden isn't fillable
+        // set it directly because is_hidden isn't fillable
         $recipe->is_hidden = ! $recipe->is_hidden;
         $recipe->save();
 

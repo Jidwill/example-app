@@ -4,7 +4,7 @@ namespace App\Services\FoodLookup;
 
 /**
  * One food with its macros per 100g. Every FoodLookup returns these,
- * so the page doesn't need to know which API (or list) the data came from.
+ * so the page doesn't care which API (or list) it came from.
  */
 final readonly class FoodItem
 {
@@ -19,7 +19,7 @@ final readonly class FoodItem
 
     /**
      * Builds a FoodItem from one product in an Open Food Facts search result.
-     * Returns null if the product is missing its name or macros, so those get skipped.
+     * Returns null if the product has no name or macros so it gets skipped.
      */
     public static function fromOpenFoodFacts(array $product): ?self
     {
@@ -33,7 +33,7 @@ final readonly class FoodItem
         // some products only have energy in kJ, so convert (1 kcal = 4.184 kJ)
         $kcal = $n['energy-kcal_100g'] ?? (isset($n['energy-kj_100g']) ? $n['energy-kj_100g'] / 4.184 : null);
 
-        // if there's no energy at all, work it out from the macros like the Recipe model does
+        // no energy at all, so work it out from the macros like the Recipe model
         $kcal ??= ($n['proteins_100g'] * 4) + ($n['carbohydrates_100g'] * 4) + ($n['fat_100g'] * 9);
 
         // brands can be "Tesco, Tesco Finest" - just show the first one
@@ -50,7 +50,7 @@ final readonly class FoodItem
     }
 
     /**
-     * Livewire can only keep simple values between requests, so the page stores arrays.
+     * Livewire can only keep simple values between requests so I store arrays.
      *
      * @return array<string, mixed>
      */

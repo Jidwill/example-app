@@ -28,7 +28,7 @@ return [
         'region' => env('AWS_DEFAULT_REGION', 'us-east-1'),
     ],
 
-    // the food lookup on the recipe form (see FoodLookupServiceProvider).
+    // food lookup on the recipe form (see FoodLookupServiceProvider)
     // driver: "open_food_facts" (the real API) or "local" (built-in list, no internet needed)
     'food_lookup' => [
         'driver' => env('FOOD_LOOKUP_DRIVER', 'open_food_facts'),

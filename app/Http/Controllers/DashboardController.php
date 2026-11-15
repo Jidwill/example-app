@@ -7,7 +7,7 @@ use Illuminate\Http\Request;
 use Illuminate\View\View;
 
 /**
- * The logged-in home page. Only one action, so it's an invokable controller (__invoke).
+ * Home page for logged in users. It only does one thing so it's an invokable controller.
  */
 class DashboardController extends Controller
 {
@@ -15,7 +15,7 @@ class DashboardController extends Controller
     {
         $user = $request->user()->load('profile')->loadCount('recipes', 'comments');
 
-        // the newest few recipes this user is allowed to see, same as the recipes page
+        // latest few recipes this user can see (same rule as the recipes page)
         $latest = Recipe::visibleTo($user)
             ->with(['user', 'tags'])
             ->withCount(['comments', 'likes'])

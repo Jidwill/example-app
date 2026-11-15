@@ -23,7 +23,7 @@
                 </a>
             </header>
 
-            {{-- main landmark and a heading that says which page this is (set with #[Title] on each auth page) --}}
+            {{-- main landmark plus a heading saying which page this is (from #[Title] on each auth page) --}}
             <main class="w-full sm:max-w-md mt-6 px-6 py-4 bg-white dark:bg-gray-800 shadow-md overflow-hidden sm:rounded-lg">
                 <h1 class="mb-4 text-lg font-semibold text-gray-900 dark:text-gray-100">{{ $title ?? 'MacroMeals' }}</h1>
                 {{ $slot }}

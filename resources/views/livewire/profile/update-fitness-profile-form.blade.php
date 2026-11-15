@@ -6,13 +6,13 @@ use Livewire\Volt\Component;
 
 /*
  * Lets you set your goal, daily targets and bio, which show on your user page.
- * Sits on Breeze's Profile page next to the name/email and password forms.
+ * Goes on Breeze's Profile page with the name/email and password forms.
  */
 new class extends Component
 {
     public string $goal = 'maintain';
 
-    // strings because that's what form boxes send - the validation checks they're whole numbers
+    // strings because that's what the inputs send, validation checks they're whole numbers
     // (an int property would just ignore an empty box instead of showing an error)
     public string $daily_calories = '2500';
 
@@ -47,7 +47,7 @@ new class extends Component
             'daily_protein' => 'daily protein',
         ]);
 
-        // updateOrCreate covers older accounts that were made before profiles were automatic
+        // updateOrCreate in case it's an older account from before profiles were automatic
         Auth::user()->profile()->updateOrCreate([], [
             ...$validated,
             'bio' => $validated['bio'] ?: null,

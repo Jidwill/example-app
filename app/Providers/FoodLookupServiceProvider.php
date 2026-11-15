@@ -11,11 +11,11 @@ use Illuminate\Http\Client\Factory as Http;
 use Illuminate\Support\ServiceProvider;
 
 /**
- * Tells Laravel's service container what to give back when something asks for a FoodLookup.
+ * Tells the service container what to give back when something asks for a FoodLookup.
  *
  * Anything that type-hints FoodLookup (like the food-lookup component's search method)
- * gets whichever implementation is chosen here, built with everything it needs.
- * Changing FOOD_LOOKUP_DRIVER in .env swaps it without touching any other code.
+ * gets whichever class is picked here, already set up with what it needs.
+ * Changing FOOD_LOOKUP_DRIVER in .env swaps it without changing any other code.
  */
 class FoodLookupServiceProvider extends ServiceProvider
 {

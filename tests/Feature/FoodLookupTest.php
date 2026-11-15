@@ -104,7 +104,7 @@ test('the recipe form shows the food lookup', function () {
 });
 
 test('the lookup component uses whatever FoodLookup the container gives it', function () {
-    // swap the binding for the built-in list - the component doesn't need to change at all
+    // swap the binding for the built-in list, the component doesn't change at all
     app()->instance(FoodLookup::class, new LocalFoodLookup);
 
     Volt::actingAs(User::factory()->create())

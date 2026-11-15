@@ -6,13 +6,13 @@ use App\Services\FoodLookup\FoodLookupException;
 use Livewire\Volt\Component;
 
 /*
- * "Work out the macros" box on the recipe form. Search for an ingredient, say how many grams
- * you use, and it adds up the totals. "Fill in the macros" then sends the totals to the
+ * The macro helper on the recipe form. You search an ingredient, enter the grams
+ * and it adds up the totals. "Fill in the macros" sends the totals to the
  * recipe form, which divides them by the number of servings.
  *
- * search() asks for a FoodLookup in its parameters - the service container sees that and
- * passes in whatever FoodLookupServiceProvider bound (the real Open Food Facts API by default).
- * This component never creates the service or knows which one it's using.
+ * search() type-hints FoodLookup, so the service container passes in whatever
+ * FoodLookupServiceProvider bound (the Open Food Facts one by default).
+ * The component never makes the service itself or knows which one it's got.
  */
 new class extends Component
 {
@@ -45,7 +45,7 @@ new class extends Component
         try {
             $this->results = array_map(fn (FoodItem $item) => $item->toArray(), $foods->search($this->query));
         } catch (FoodLookupException $e) {
-            // the API being down shouldn't break the page - just say what happened
+            // if the API is down just show a message instead of breaking the page
             $this->error = $e->getMessage();
         }
 
@@ -99,7 +99,7 @@ new class extends Component
     }
 
     /**
-     * Sends the totals to the recipe form (a browser event that Alpine picks up in the form).
+     * Sends the totals to the recipe form as a browser event, Alpine picks it up there.
      */
     public function fillRecipe(): void
     {
@@ -120,7 +120,7 @@ new class extends Component
         and they'll be divided by the number of servings.
     </p>
 
-    {{-- not a <form>, because this sits inside the recipe form. Enter is caught so it doesn't submit the recipe --}}
+    {{-- not a <form> because it's already inside the recipe form. Enter is caught so it doesn't submit the recipe --}}
     <div class="mt-3 grid gap-3 sm:grid-cols-[1fr_8rem_auto] sm:items-end">
         <div>
             <x-input-label for="food-search" value="Food" />
